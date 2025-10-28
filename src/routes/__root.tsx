@@ -3,13 +3,15 @@ import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
 import { TanStackDevtools } from '@tanstack/react-devtools';
 
 export const Route = createRootRoute({
-  component: RootLayout
+  component: RootLayout,
 });
 
 function RootLayout() {
   return (
-    <>
-      <Outlet />
+    <div className='min-h-screen bg-zinc-50'>
+      <main className='flex justify-center p-12'>
+          <Outlet />
+      </main>
       <TanStackDevtools
         config={{
           position: 'bottom-right',
@@ -21,6 +23,6 @@ function RootLayout() {
           },
         ]}
       />
-    </>
+    </div>
   );
 }
