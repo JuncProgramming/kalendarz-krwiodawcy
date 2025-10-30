@@ -124,7 +124,7 @@ export function DonationCalculator() {
         </div>
       )}
 
-      <p className="text-xs text-zinc-500 text-center pt-2">
+      <p className="text-xs text-zinc-500 text-center">
         Pamiętaj, że jest to data orientacyjna. Ostateczną decyzję o Twojej
         zdolności do oddania krwi zawsze podejmuje lekarz.
       </p>
