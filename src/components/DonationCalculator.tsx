@@ -114,8 +114,8 @@ export function DonationCalculator() {
       )}
 
       {showGenderNote && (
-        <div className="text-center bg-yellow-100 p-3 rounded-md">
-          <p className="font-medium text-sm text-yellow-800">
+        <div className="bg-yellow-100 p-3 rounded-md ">
+          <p className="text-sm text-yellow-800 text-center text-balance wrap-break-word">
             <strong>Uwaga:</strong> Obliczona data (56 dni) to minimum dla{' '}
             <strong>mężczyzn</strong> (do 6 donacji rocznie). Kobiety mogą oddać
             krew pełną <strong>4 razy w roku</strong>, co oznacza przerwę min.{' '}
