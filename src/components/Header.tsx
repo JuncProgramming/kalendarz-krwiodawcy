@@ -1,9 +1,11 @@
 import { Link } from '@tanstack/react-router';
-import { Droplet, Menu, X } from 'lucide-react';
+import { Droplet, Menu, X, LogOut } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { useAuth } from '@/hooks/useAuth';
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user, signOut } = useAuth();
 
   useEffect(() => {
     const handleResize = () => {
@@ -27,6 +29,10 @@ export function Header() {
     };
   }, [isMobileMenuOpen]);
 
+  const handleSignOut = async () => {
+    await signOut();
+  };
+
   return (
     <>
       <header className="w-full bg-white shadow-sm sticky top-0 z-50">
@@ -45,17 +51,33 @@ export function Header() {
               FAQ
             </Link>
 
-            <Link
-              to="/"
-              className="text-sm font-semibold text-zinc-700 border border-zinc-300 py-1.5 px-3 rounded-md hover:bg-zinc-100 transition-colors whitespace-nowrap">
-              Zaloguj się
-            </Link>
+            {user ? (
+              <>
+                <span className="text-sm text-zinc-600">
+                  {user.email}
+                </span>
+                <button
+                  onClick={handleSignOut}
+                  className="flex items-center gap-2 text-sm font-semibold text-zinc-700 border border-zinc-300 py-2 px-4 rounded-md hover:bg-zinc-100 transition-colors whitespace-nowrap">
+                  <LogOut size={16} />
+                  Wyloguj
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className="text-sm font-semibold text-zinc-700 border border-zinc-300 py-2 px-4 rounded-md hover:bg-zinc-100 transition-colors whitespace-nowrap">
+                  Zaloguj się
+                </Link>
 
-            <Link
-              to="/"
-              className="text-sm font-semibold text-white bg-zinc-700 py-1.5 px-3 rounded-md hover:bg-zinc-800 transition-colors whitespace-nowrap">
-              Zarejestruj się
-            </Link>
+                <Link
+                  to="/register"
+                  className="text-sm font-semibold text-white bg-zinc-700 py-2 px-4 rounded-md hover:bg-zinc-800 transition-colors whitespace-nowrap">
+                  Zarejestruj się
+                </Link>
+              </>
+            )}
           </div>
 
           <button
@@ -90,19 +112,38 @@ export function Header() {
                 FAQ
               </Link>
 
-              <Link
-                to="/"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="text-sm font-semibold text-zinc-700 border border-zinc-300 py-2.5 px-3 rounded-md hover:bg-zinc-100 transition-colors text-center mt-2">
-                Zaloguj się
-              </Link>
+              {user ? (
+                <>
+                  <div className="text-sm text-zinc-600 py-2.5 px-3">
+                    {user.email}
+                  </div>
+                  <button
+                    onClick={() => {
+                      handleSignOut();
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="flex items-center justify-center gap-2 text-sm font-semibold text-zinc-700 border border-zinc-300 py-2.5 px-3 rounded-md hover:bg-zinc-100 transition-colors mt-2">
+                    <LogOut size={16} />
+                    Wyloguj
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/login"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="text-sm font-semibold text-zinc-700 border border-zinc-300 py-2.5 px-3 rounded-md hover:bg-zinc-100 transition-colors text-center mt-2">
+                    Zaloguj się
+                  </Link>
 
-              <Link
-                to="/"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="text-sm font-semibold text-white bg-zinc-700 py-2.5 px-3 rounded-md hover:bg-zinc-800 transition-colors text-center mt-2">
-                Zarejestruj się
-              </Link>
+                  <Link
+                    to="/register"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="text-sm font-semibold text-white bg-zinc-700 py-2.5 px-3 rounded-md hover:bg-zinc-800 transition-colors text-center mt-2">
+                    Zarejestruj się
+                  </Link>
+                </>
+              )}
             </nav>
           </div>
         </>
