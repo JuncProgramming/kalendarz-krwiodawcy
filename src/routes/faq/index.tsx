@@ -3,10 +3,10 @@ import FaqCard from '../../components/FaqCard';
 import { faqData } from '../../data/faqData';
 
 export const Route = createFileRoute('/faq/')({
-  component: FaqComponent,
+  component: FaqPage,
 });
 
-function FaqComponent() {
+function FaqPage() {
   return (
     <div className="w-full space-y-12 flex-col flex items-center">
       <h1 className="text-3xl text-center font-semibold text-zinc-700">
