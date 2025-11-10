@@ -9,7 +9,7 @@ export const Route = createFileRoute('/faq/')({
 function FaqPage() {
   return (
     <div className="w-full space-y-12 flex-col flex items-center">
-      <h1 className="text-3xl text-center font-semibold text-zinc-700">
+      <h1 className="text-4xl text-center font-semibold text-zinc-700 p-4">
         Jak zacząć oddawać krew?
       </h1>
       <div className="w-full max-w-3xl space-y-3">

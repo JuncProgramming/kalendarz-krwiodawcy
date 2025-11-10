@@ -30,7 +30,9 @@ function ForgotPasswordPage() {
       setError('Nieprawidłowy email');
       setLoading(false);
     } else {
-      navigate({ to: '/' });
+      setMessage(
+        'Jeśli ten e-mail jest powiązany z Twoim kontem, został na niego wysłany link do resetu hasła'
+      );
     }
   };
 
