@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { CircleCheck, CircleAlert } from 'lucide-react';
+import Spinner from '@/components/Spinner';
 
 export const Route = createFileRoute('/forgot-password/')({
   component: ForgotPasswordPage,
@@ -28,13 +29,14 @@ function ForgotPasswordPage() {
 
     const { error } = await resetPassword(email);
 
+    setLoading(false);
+
     if (error) {
       setError('Nieprawidłowy email');
     } else {
       setMessage(
         'Jeśli ten e-mail jest powiązany z Twoim kontem, został na niego wysłany link do resetu hasła'
       );
-      setLoading(false);
     }
   };
 
@@ -82,7 +84,8 @@ function ForgotPasswordPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-red-600 text-white font-semibold py-3 rounded-md hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+            className="w-full bg-red-600 text-white font-semibold py-3 rounded-md hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+            {loading && <Spinner size="sm" />}
             {loading ? 'Wysyłanie linku...' : 'Wyślij link'}
           </button>
         </form>
