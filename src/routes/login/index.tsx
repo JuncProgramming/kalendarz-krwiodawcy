@@ -2,6 +2,7 @@ import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { CircleAlert } from 'lucide-react';
+import Spinner from '@/components/Spinner';
 
 export const Route = createFileRoute('/login/')({
   component: LoginPage,
@@ -12,8 +13,21 @@ function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { signIn } = useAuth();
+  const { signIn, user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
+
+  if (authLoading) {
+    return (
+      <div className="flex items-center justify-center">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
+
+  if (user) {
+    navigate({ to: '/' });
+    return null;
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -87,7 +101,8 @@ function LoginPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-red-600 text-white font-semibold py-3 rounded-md hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+          className="w-full bg-red-600 text-white font-semibold py-3 rounded-md hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+          {loading && <Spinner size="sm" />}
           {loading ? 'Logowanie...' : 'Zaloguj się'}
         </button>
       </form>
