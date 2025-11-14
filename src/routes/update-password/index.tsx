@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate, Link } from '@tanstack/react-router';
 import { useAuth } from '@/hooks/useAuth';
 import { useState } from 'react';
 import { CircleCheck, CircleAlert } from 'lucide-react';
+import Spinner from '@/components/Spinner';
 
 export const Route = createFileRoute('/update-password/')({
   component: UpdatePasswordPage,
@@ -52,8 +53,9 @@ function UpdatePasswordPage() {
 
   if (authLoading) {
     return (
-      // TODO
-      <div>Spinner</div>
+      <div className="flex items-center justify-center">
+        <Spinner size="lg" />
+      </div>
     );
   }
 
@@ -136,7 +138,8 @@ function UpdatePasswordPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-red-600 text-white font-semibold py-3 rounded-md hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+            className="w-full bg-red-600 text-white font-semibold py-3 rounded-md hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+            {loading && <Spinner size="sm" />}
             {loading ? 'Zapisywanie hasła...' : 'Zapisz nowe hasło'}
           </button>
         </form>
