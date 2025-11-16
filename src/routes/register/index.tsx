@@ -12,6 +12,8 @@ function RegisterPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [gender, setGender] = useState('male');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { signUp, user, loading: authLoading } = useAuth();
@@ -46,7 +48,7 @@ function RegisterPage() {
 
     setLoading(true);
 
-    const { error } = await signUp(email, password);
+    const { error } = await signUp(email, password, firstName, gender);
 
     if (error) {
       setError(error.message);
@@ -117,6 +119,53 @@ function RegisterPage() {
             className="w-full px-3 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
             placeholder="Powtórz hasło"
           />
+        </div>
+
+        <div>
+          <label
+            htmlFor="firstName"
+            className="block text-sm font-medium text-zinc-700 mb-1">
+            Imię
+          </label>
+          <input
+            type="text"
+            id="firstName"
+            required
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            className="w-full px-3 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+            placeholder="Twoje imię"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-zinc-700 mb-1">
+            Płeć
+          </label>
+          <div className="space-y-2">
+            <label className="flex items-center p-3 border border-zinc-300 rounded-md cursor-pointer hover:bg-zinc-50 transition-colors">
+              <input
+                type="radio"
+                name="gender"
+                value="male"
+                checked={gender === 'male'}
+                onChange={(e) => setGender(e.target.value)}
+                className="w-4 h-4 text-red-600 focus:ring-red-500"
+              />
+              <span className="ml-3 text-zinc-700">Mężczyzna</span>
+            </label>
+            <label className="flex items-center p-3 border border-zinc-300 rounded-md cursor-pointer hover:bg-zinc-50 transition-colors">
+              <input
+                type="radio"
+                name="gender"
+                value="female"
+                checked={gender === 'female'}
+                onChange={(e) => setGender(e.target.value)}
+                className="w-4 h-4 text-red-600 focus:ring-red-500"
+              />
+              <span className="ml-3 text-zinc-700">Kobieta</span>
+            </label>
+          </div>
         </div>
 
         {error && (
