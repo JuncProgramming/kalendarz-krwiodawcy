@@ -63,37 +63,101 @@ export function DonationCalculator() {
       </div>
 
       <div className="flex flex-col">
-        <label
-          htmlFor="lastDonationType"
-          className="mb-1 font-medium text-zinc-600">
+        <label className="mb-2 font-medium text-zinc-600">
           Co oddano (ostatnio):
         </label>
-        <select
-          id="lastDonationType"
-          value={lastDonationType}
-          onChange={(e) => setLastDonationType(e.target.value as DonationType)}
-          className="p-2 border border-zinc-300 rounded-md bg-white">
-          <option value="krew_pelna">Krew pełna</option>
-          <option value="osocze">Osocze (Plazma)</option>
-          <option value="plytki">Płytki krwi (Trombocyty)</option>
-        </select>
+        <div className="space-y-2">
+          <label className="flex items-center p-3 border border-zinc-300 rounded-md cursor-pointer hover:bg-zinc-50 transition-colors">
+            <input
+              type="radio"
+              name="lastDonationType"
+              value="krew_pelna"
+              checked={lastDonationType === 'krew_pelna'}
+              onChange={(e) =>
+                setLastDonationType(e.target.value as DonationType)
+              }
+              className="w-4 h-4 text-red-600 focus:ring-red-500"
+            />
+            <span className="ml-3 text-zinc-700">Krew pełna</span>
+          </label>
+          <label className="flex items-center p-3 border border-zinc-300 rounded-md cursor-pointer hover:bg-zinc-50 transition-colors">
+            <input
+              type="radio"
+              name="lastDonationType"
+              value="osocze"
+              checked={lastDonationType === 'osocze'}
+              onChange={(e) =>
+                setLastDonationType(e.target.value as DonationType)
+              }
+              className="w-4 h-4 text-red-600 focus:ring-red-500"
+            />
+            <span className="ml-3 text-zinc-700">Osocze (Plazma)</span>
+          </label>
+          <label className="flex items-center p-3 border border-zinc-300 rounded-md cursor-pointer hover:bg-zinc-50 transition-colors">
+            <input
+              type="radio"
+              name="lastDonationType"
+              value="plytki"
+              checked={lastDonationType === 'plytki'}
+              onChange={(e) =>
+                setLastDonationType(e.target.value as DonationType)
+              }
+              className="w-4 h-4 text-red-600 focus:ring-red-500"
+            />
+            <span className="ml-3 text-zinc-700">
+              Płytki krwi (Trombocyty)
+            </span>
+          </label>
+        </div>
       </div>
 
       <div className="flex flex-col">
-        <label
-          htmlFor="nextDonationType"
-          className="mb-1 font-medium text-zinc-600">
+        <label className="mb-2 font-medium text-zinc-600">
           Co chcesz oddać (teraz):
         </label>
-        <select
-          id="nextDonationType"
-          value={nextDonationType}
-          onChange={(e) => setNextDonationType(e.target.value as DonationType)}
-          className="p-2 border border-zinc-300 rounded-md bg-white">
-          <option value="krew_pelna">Krew pełna</option>
-          <option value="osocze">Osocze (Plazma)</option>
-          <option value="plytki">Płytki krwi (Trombocyty)</option>
-        </select>
+        <div className="space-y-2">
+          <label className="flex items-center p-3 border border-zinc-300 rounded-md cursor-pointer hover:bg-zinc-50 transition-colors">
+            <input
+              type="radio"
+              name="nextDonationType"
+              value="krew_pelna"
+              checked={nextDonationType === 'krew_pelna'}
+              onChange={(e) =>
+                setNextDonationType(e.target.value as DonationType)
+              }
+              className="w-4 h-4 text-red-600 focus:ring-red-500"
+            />
+            <span className="ml-3 text-zinc-700">Krew pełna</span>
+          </label>
+          <label className="flex items-center p-3 border border-zinc-300 rounded-md cursor-pointer hover:bg-zinc-50 transition-colors">
+            <input
+              type="radio"
+              name="nextDonationType"
+              value="osocze"
+              checked={nextDonationType === 'osocze'}
+              onChange={(e) =>
+                setNextDonationType(e.target.value as DonationType)
+              }
+              className="w-4 h-4 text-red-600 focus:ring-red-500"
+            />
+            <span className="ml-3 text-zinc-700">Osocze (Plazma)</span>
+          </label>
+          <label className="flex items-center p-3 border border-zinc-300 rounded-md cursor-pointer hover:bg-zinc-50 transition-colors">
+            <input
+              type="radio"
+              name="nextDonationType"
+              value="plytki"
+              checked={nextDonationType === 'plytki'}
+              onChange={(e) =>
+                setNextDonationType(e.target.value as DonationType)
+              }
+              className="w-4 h-4 text-red-600 focus:ring-red-500"
+            />
+            <span className="ml-3 text-zinc-700">
+              Płytki krwi (Trombocyty)
+            </span>
+          </label>
+        </div>
       </div>
 
       <button
