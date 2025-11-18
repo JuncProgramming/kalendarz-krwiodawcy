@@ -1,6 +1,5 @@
 import { useState } from 'react';
-
-type DonationType = 'krew_pelna' | 'osocze' | 'plytki';
+import { type DonationType } from '@/types';
 
 export function DonationCalculator() {
   const [lastDonationDate, setLastDonationDate] = useState('');

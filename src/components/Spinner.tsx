@@ -1,6 +1,4 @@
-type SpinnerProps = {
-  size?: 'sm' | 'md' | 'lg';
-};
+import { type SpinnerProps } from '@/types';
 
 function Spinner({ size = 'md' }: SpinnerProps) {
   const sizeClasses = {

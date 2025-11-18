@@ -1,10 +1,6 @@
 import { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-
-type FaqCardProps = {
-  question: string;
-  children: React.ReactNode;
-};
+import { type FaqCardProps } from '@/types';
 
 function FaqCard({ question, children }: FaqCardProps) {
   const [isOpen, setIsOpen] = useState(false);
