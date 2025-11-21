@@ -7,7 +7,6 @@ export type Donation = {
   type: string;
   date: string;
   location: string;
-  status: string;
   resultsLink?: string;
 };
 
@@ -20,8 +19,30 @@ export type FaqCardProps = {
   children: ReactNode;
 };
 
-export type DashboardCardProps = {
+export type BaseDashboardCardProps = {
   title: string;
-  children: ReactNode;
+  children?: ReactNode;
   donations?: Donation[];
+};
+
+export type AddDonationModalProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  onSave: (data: {
+    date: string;
+    type: string;
+    location: string;
+    file?: File | null;
+  }) => void;
+};
+
+export type StatusCardProps = {
+  daysRemaining: number;
+  progress: number;
+  nextDate: string;
+};
+
+export type DonationsHistoryCardProps = {
+  donations: Donation[];
+  onClick: () => void;
 };
