@@ -103,9 +103,7 @@ export function DonationCalculator() {
               }
               className="w-4 h-4 text-red-600 focus:ring-red-500"
             />
-            <span className="ml-3 text-zinc-700">
-              Płytki krwi (Trombocyty)
-            </span>
+            <span className="ml-3 text-zinc-700">Płytki krwi (Trombocyty)</span>
           </label>
         </div>
       </div>
@@ -152,9 +150,7 @@ export function DonationCalculator() {
               }
               className="w-4 h-4 text-red-600 focus:ring-red-500"
             />
-            <span className="ml-3 text-zinc-700">
-              Płytki krwi (Trombocyty)
-            </span>
+            <span className="ml-3 text-zinc-700">Płytki krwi (Trombocyty)</span>
           </label>
         </div>
       </div>
@@ -177,12 +173,11 @@ export function DonationCalculator() {
       )}
 
       {showGenderNote && (
-        <div className="bg-yellow-100 p-3 rounded-md ">
-          <p className="text-sm text-yellow-800 text-center text-balance wrap-break-word">
-            <strong>Uwaga:</strong> Obliczona data (56 dni) to minimum dla{' '}
-            <strong>mężczyzn</strong> (do 6 donacji rocznie). Kobiety mogą oddać
-            krew pełną <strong>4 razy w roku</strong>, co oznacza przerwę min.{' '}
-            <strong>84 dni (12 tygodni)</strong>.
+        <div className="bg-yellow-100 p-3 rounded-md w-full">
+          <p className="text-sm text-yellow-800 text-center wrap-break-word whitespace-normal">
+            <strong>Ważne:</strong> Minimalna przerwa pomiędzy donacjami to 56 dni. Ze względu na
+            roczne limity (6 donacji dla mężczyzn, 4 dla kobiet),{' '}
+              kobietom zaleca się dłuższą przerwę - 84 dni.
           </p>
         </div>
       )}
