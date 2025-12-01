@@ -26,3 +26,24 @@ export const calculateNextDonation = (lastDonationDateStr: string) => {
     progress,
   };
 };
+
+export const getDonationsWordForm = (count: number) => {
+  const absCount = Math.floor(Math.abs(count));
+
+  const lastTwoDigits = absCount % 100;
+  const lastDigit = absCount % 10;
+
+  if (absCount === 1) {
+    return 'donacja';
+  }
+
+  if (lastTwoDigits >= 12 && lastTwoDigits <= 14) {
+    return 'donacji';
+  }
+
+  if (lastDigit >= 2 && lastDigit <= 4) {
+    return 'donacje';
+  }
+
+  return 'donacji';
+};
