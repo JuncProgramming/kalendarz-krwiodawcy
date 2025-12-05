@@ -175,9 +175,9 @@ export function DonationCalculator() {
       {showGenderNote && (
         <div className="bg-yellow-100 p-3 rounded-md w-full">
           <p className="text-sm text-yellow-800 text-center wrap-break-word whitespace-normal">
-            <strong>Ważne:</strong> Minimalna przerwa pomiędzy donacjami to 56 dni. Ze względu na
-            roczne limity (6 donacji dla mężczyzn, 4 dla kobiet),{' '}
-              kobietom zaleca się dłuższą przerwę - 84 dni.
+            <strong>Ważne:</strong> Minimalna przerwa pomiędzy donacjami to 56
+            dni. Ze względu na roczne limity (6 donacji dla mężczyzn, 4 dla
+            kobiet), kobietom zaleca się dłuższą przerwę - 84 dni.
           </p>
         </div>
       )}
