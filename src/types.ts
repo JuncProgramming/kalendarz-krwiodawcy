@@ -46,3 +46,23 @@ export type DonationsHistoryCardProps = {
   donations: Donation[];
   onClick: () => void;
 };
+
+export type BadgeComponentProps = {
+  donations: Donation[]
+  gender: string
+}
+
+export type BadgeColors = {
+  bg: string;
+  text: string;
+  border: string;
+  progress: string;
+};
+
+export type Badge = {
+  id: string;
+  name: string;
+  description: string;
+  colors: BadgeColors;
+  thresholdLiters: (gender: string) => number;
+};
