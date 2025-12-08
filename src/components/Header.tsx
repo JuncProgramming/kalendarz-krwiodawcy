@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router';
-import { Droplet, Menu, X, LogOut } from 'lucide-react';
+import { Droplet, Menu, X, LogOut, User } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -51,11 +51,14 @@ export function Header() {
               FAQ
             </Link>
 
-            {user ? (
+            {user ?
               <>
-                <span className="text-sm text-zinc-600">
-                  {user.email}
-                </span>
+                <Link
+                  to="/dashboard"
+                  className="flex items-center gap-2 text-sm font-semibold text-zinc-700 border border-zinc-300 py-2 px-4 rounded-md hover:bg-zinc-100 transition-colors whitespace-nowrap">
+                  <User size={16} />
+                  {user.user_metadata?.first_name}
+                </Link>
                 <button
                   onClick={handleSignOut}
                   className="flex items-center gap-2 text-sm font-semibold text-zinc-700 border border-zinc-300 py-2 px-4 rounded-md hover:bg-zinc-100 transition-colors whitespace-nowrap">
@@ -63,8 +66,7 @@ export function Header() {
                   Wyloguj
                 </button>
               </>
-            ) : (
-              <>
+            : <>
                 <Link
                   to="/login"
                   className="text-sm font-semibold text-zinc-700 border border-zinc-300 py-2 px-4 rounded-md hover:bg-zinc-100 transition-colors whitespace-nowrap">
@@ -77,7 +79,7 @@ export function Header() {
                   Zarejestruj się
                 </Link>
               </>
-            )}
+            }
           </div>
 
           <button
@@ -112,11 +114,15 @@ export function Header() {
                 FAQ
               </Link>
 
-              {user ? (
+              {user ?
                 <>
-                  <div className="text-sm text-zinc-600 py-2.5 px-3">
-                    {user.email}
-                  </div>
+                  <Link
+                    to="/dashboard"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center justify-center gap-2 text-sm font-semibold text-zinc-700 border border-zinc-300 py-2.5 px-3 rounded-md hover:bg-zinc-100 transition-colors mt-2">
+                    <User size={16} />
+                    {user.user_metadata?.first_name}
+                  </Link>
                   <button
                     onClick={() => {
                       handleSignOut();
@@ -127,8 +133,7 @@ export function Header() {
                     Wyloguj
                   </button>
                 </>
-              ) : (
-                <>
+              : <>
                   <Link
                     to="/login"
                     onClick={() => setIsMobileMenuOpen(false)}
@@ -143,7 +148,7 @@ export function Header() {
                     Zarejestruj się
                   </Link>
                 </>
-              )}
+              }
             </nav>
           </div>
         </>

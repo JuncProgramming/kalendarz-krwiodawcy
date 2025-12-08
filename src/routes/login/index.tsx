@@ -25,7 +25,7 @@ function LoginPage() {
   }
 
   if (user) {
-    navigate({ to: '/' });
+    navigate({ to: '/dashboard' });
     return null;
   }
 
@@ -41,7 +41,7 @@ function LoginPage() {
       setError('Nieprawidłowy email lub hasło');
       setLoading(false);
     } else {
-      navigate({ to: '/' });
+      navigate({ to: '/dashboard' });
     }
   };
 
