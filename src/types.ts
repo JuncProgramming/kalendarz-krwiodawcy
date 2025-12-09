@@ -4,10 +4,10 @@ export type DonationType = 'krew_pelna' | 'osocze' | 'plytki';
 
 export type Donation = {
   id: string;
-  type: string;
+  type: 'krew_pelna' | 'osocze' | 'plytki';
   date: string;
   location: string;
-  resultsLink?: string;
+  results_url?: string;
 };
 
 export type SpinnerProps = {
@@ -40,17 +40,21 @@ export type StatusCardProps = {
   daysRemaining: number;
   progress: number;
   nextDate: string;
+  canDonate: boolean
 };
 
 export type DonationsHistoryCardProps = {
   donations: Donation[];
   onClick: () => void;
+  onDelete: (id: string) => void;
+  onUpload: (id: string, file: File) => void;
+  onViewResult: (path: string) => void;
 };
 
 export type BadgeComponentProps = {
-  donations: Donation[]
-  gender: string
-}
+  donations: Donation[];
+  gender: string;
+};
 
 export type BadgeColors = {
   bg: string;

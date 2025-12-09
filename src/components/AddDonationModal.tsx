@@ -8,7 +8,7 @@ export function AddDonationModal({
   onClose,
   onSave,
 }: AddDonationModalProps) {
-  const defaultDate = new Date().toISOString().split('T')[0]
+  const defaultDate = new Date().toISOString().split('T')[0];
 
   const [date, setDate] = useState(defaultDate);
   const [type, setType] = useState('Krew pełna');
@@ -184,11 +184,7 @@ export function AddDonationModal({
                     : 'border-zinc-300 bg-zinc-50 hover:bg-zinc-100'
                   }`}>
                   <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                    <Upload
-                      className={`w-8 h-8 mb-2 ${
-                         'text-zinc-400'
-                      }`}
-                    />
+                    <Upload className="w-8 h-8 mb-2 text-zinc-400" />
                     <p className="mb-2 text-sm text-zinc-500">
                       <span className="font-semibold">
                         Kliknij lub upuść plik
