@@ -5,6 +5,9 @@ import type { DonationsHistoryCardProps } from '@/types';
 const DonationsHistoryCard = ({
   donations,
   onClick,
+  onDelete,
+  onUpload,
+  onViewResult,
 }: DonationsHistoryCardProps) => {
   return (
     <>
@@ -12,7 +15,13 @@ const DonationsHistoryCard = ({
         {donations.length === 0 ?
           <p className="text-zinc-500 text-sm">Brak zapisanych donacji.</p>
         : donations.map((donation) => (
-            <DonationItem key={donation.id} donation={donation} />
+            <DonationItem
+              key={donation.id}
+              donation={donation}
+              onDelete={onDelete}
+              onUpload={onUpload}
+              onViewResult={onViewResult}
+            />
           ))
         }
       </div>
