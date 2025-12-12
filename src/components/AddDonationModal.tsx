@@ -8,7 +8,9 @@ export function AddDonationModal({
   onClose,
   onSave,
 }: AddDonationModalProps) {
-  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+  const defaultDate = new Date().toISOString().split('T')[0]
+
+  const [date, setDate] = useState(defaultDate);
   const [type, setType] = useState('Krew pełna');
   const [location, setLocation] = useState('RCKiK Warszawa');
   const [file, setFile] = useState<File | null>(null);
@@ -18,6 +20,10 @@ export function AddDonationModal({
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
+      setDate(defaultDate);
+      setType('Krew pełna');
+      setLocation('RCKiK Warszawa');
+      setFile(null);
     } else {
       document.body.style.overflow = 'unset';
     }
@@ -180,7 +186,7 @@ export function AddDonationModal({
                   <div className="flex flex-col items-center justify-center pt-5 pb-6">
                     <Upload
                       className={`w-8 h-8 mb-2 ${
-                        isDragging ? 'text-red-500' : 'text-zinc-400'
+                         'text-zinc-400'
                       }`}
                     />
                     <p className="mb-2 text-sm text-zinc-500">
