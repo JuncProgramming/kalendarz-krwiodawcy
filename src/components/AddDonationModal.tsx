@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { X, Upload } from 'lucide-react';
 import Spinner from './Spinner';
 import { type AddDonationModalProps } from '@/types';
+import { toast } from 'react-toastify';
+import { MAX_FILE_SIZE } from '@/constants';
 
 export function AddDonationModal({
   isOpen,
@@ -47,7 +49,15 @@ export function AddDonationModal({
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0]);
+      const selectedFile = e.target.files[0];
+
+      if (selectedFile.size > MAX_FILE_SIZE) {
+        toast.error('Plik jest za duży (max. 2 MB)');
+        e.target.value = '';
+        return;
+      }
+
+      setFile(selectedFile);
     }
   };
 
@@ -86,7 +96,7 @@ export function AddDonationModal({
             </h3>
             <button
               onClick={onClose}
-              className="p-2 border border-zinc-200 rounded-md text-zinc-500 hover:text-zinc-700 hover:bg-zinc-50 transition-colors">
+              className="p-2 rounded-md text-zinc-600 hover:text-zinc-800 transition-colors">
               <X size={20} />
             </button>
           </div>
@@ -191,7 +201,7 @@ export function AddDonationModal({
                       </span>
                     </p>
                     <p className="text-xs text-zinc-500">
-                      PDF, JPG, PNG (max. 5MB)
+                      PDF, JPG, PNG (max. 2MB)
                     </p>
                   </div>
                   <input
