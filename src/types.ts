@@ -40,7 +40,7 @@ export type StatusCardProps = {
   daysRemaining: number;
   progress: number;
   nextDate: string;
-  canDonate: boolean
+  canDonate: boolean;
 };
 
 export type DonationsHistoryCardProps = {
@@ -49,6 +49,12 @@ export type DonationsHistoryCardProps = {
   onDelete: (id: string) => void;
   onUpload: (id: string, file: File) => void;
   onViewResult: (path: string) => void;
+};
+
+export type ConfirmModalProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
 };
 
 export type BadgeComponentProps = {
