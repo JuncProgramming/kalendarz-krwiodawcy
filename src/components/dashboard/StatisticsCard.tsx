@@ -2,7 +2,7 @@ import type { Donation } from '@/types';
 import { Droplet, Heart, Activity } from 'lucide-react';
 
 const StatisticsCard = ({ donations }: { donations: Donation[] }) => {
-  const totalLiters = donations.length * 0.45;
+  const totalLiters = parseFloat((donations.length * 0.45).toFixed(2));
   const savedLives = donations.length * 3;
 
   return (
