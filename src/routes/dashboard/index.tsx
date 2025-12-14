@@ -3,6 +3,7 @@ import { supabase } from '@/supabaseClient';
 import Spinner from '@/components/Spinner';
 import { BaseDashboardCard } from '@/components/dashboard/BaseDashboardCard';
 import { AddDonationModal } from '@/components/AddDonationModal';
+import { ConfirmModal } from '@/components/ConfirmModal';
 import { useState, useEffect, useCallback } from 'react';
 import { Plus } from 'lucide-react';
 import { calculateNextDonation } from '@/utils';
@@ -12,6 +13,8 @@ import StatusCard from '@/components/dashboard/StatusCard';
 import StatisticsCard from '@/components/dashboard/StatisticsCard';
 import BadgeGoalCard from '@/components/dashboard/BadgeGoalCard';
 import BadgesGalleryCard from '@/components/dashboard/BadgesGalleryCard';
+import { toast } from 'react-toastify';
+import { MAX_FILE_SIZE } from '@/constants';
 
 export const Route = createFileRoute('/dashboard/')({
   beforeLoad: async ({ location }) => {
@@ -38,9 +41,10 @@ function Dashboard() {
   const { session } = Route.useRouteContext();
   const user = session.user;
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [donationToDelete, setDonationToDelete] = useState<string | null>(null);
   const [donations, setDonations] = useState<Donation[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const fetchDonations = useCallback(async () => {
     try {
@@ -55,6 +59,7 @@ function Dashboard() {
       }
     } catch (error) {
       console.error(error);
+      toast.error('Nie udało się pobrać historii donacji.');
     } finally {
       setIsLoading(false);
     }
@@ -86,6 +91,11 @@ function Dashboard() {
       let resultsUrl = null;
 
       if (newData.file) {
+        if (newData.file.size > MAX_FILE_SIZE) {
+          toast.error('Plik jest za duży (max. 2 MB)');
+          return;
+        }
+
         const fileExt = newData.file.name.split('.').pop();
         const fileName = `${Math.random()}.${fileExt}`;
         const filePath = `${user.id}/${Date.now()}_${fileName}`;
@@ -112,29 +122,45 @@ function Dashboard() {
       if (dbError) throw dbError;
 
       await fetchDonations();
+      toast.success('Dodano nową donację');
       setIsModalOpen(false);
     } catch (error) {
       console.error(error);
-      alert('Wystąpił błąd podczas zapisywania donacji.');
+      toast.error('Nie udało się zapisać donacji. Spróbuj ponownie.');
     }
   };
 
-  const handleDeleteDonation = async (id: string) => {
-    if (!window.confirm('Czy na pewno chcesz usunąć tę donację?')) return;
+  const handleDeleteDonation = (id: string) => {
+    setDonationToDelete(id);
+  };
+
+  const confirmDeleteDonation = async () => {
+    if (!donationToDelete) return;
 
     try {
-      const { error } = await supabase.from('donations').delete().eq('id', id);
+      const { error } = await supabase
+        .from('donations')
+        .delete()
+        .eq('id', donationToDelete);
 
       if (error) throw error;
 
       await fetchDonations();
+      toast.success('Donacja została usunięta');
     } catch (error) {
       console.error(error);
-      alert('Wystąpił błąd podczas usuwania donacji.');
+      toast.error('Nie udało się usunąć donacji. Spróbuj ponownie');
+    } finally {
+      setDonationToDelete(null);
     }
   };
 
   const handleUploadResults = async (id: string, file: File) => {
+    if (file.size > MAX_FILE_SIZE) {
+      toast.error('Plik jest za duży (max. 2 MB)');
+      return;
+    }
+
     try {
       const fileExt = file.name.split('.').pop();
       const fileName = `${Math.random()}.${fileExt}`;
@@ -154,9 +180,10 @@ function Dashboard() {
       if (updateError) throw updateError;
 
       await fetchDonations();
+      toast.success('Wyniki badań zostały zapisane');
     } catch (error) {
       console.error(error);
-      alert(`Wystąpił błąd podczas przesyłania pliku.`);
+      toast.error('Nie udało się przesłać pliku. Spróbuj ponownie.');
     }
   };
 
@@ -172,7 +199,7 @@ function Dashboard() {
       }
     } catch (error) {
       console.error(error);
-      alert('Wystąpił błąd podczas otwierania pliku.');
+      toast.error('Nie udało się otworzyć pliku. Spróbuj ponownie');
     }
   };
 
@@ -255,6 +282,12 @@ function Dashboard() {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSave={handleAddDonation}
+      />
+
+      <ConfirmModal
+        isOpen={donationToDelete !== null}
+        onClose={() => setDonationToDelete(null)}
+        onConfirm={confirmDeleteDonation}
       />
     </div>
   );
