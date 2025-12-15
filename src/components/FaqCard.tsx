@@ -19,11 +19,16 @@ function FaqCard({ question, children }: FaqCardProps) {
         </button>
       </div>
 
-      {isOpen && (
-        <div className="px-8 py-6 text-zinc-600 border-t border-zinc-100">
-          {children}
+      <div
+        className={`grid transition-all duration-300 ease-in-out ${
+          isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+        }`}>
+        <div className="overflow-hidden">
+          <div className="px-8 py-6 text-zinc-600 border-t border-zinc-100">
+            {children}
+          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }
