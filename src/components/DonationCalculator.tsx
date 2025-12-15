@@ -57,7 +57,7 @@ export function DonationCalculator() {
           required
           value={lastDonationDate}
           onChange={(e) => setLastDonationDate(e.target.value)}
-          className="p-2 border border-zinc-300 rounded-md"
+          className="p-2 border border-zinc-300 rounded-md w-full"
         />
       </div>
 

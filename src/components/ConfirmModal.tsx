@@ -28,7 +28,7 @@ export function ConfirmModal({
         aria-hidden="true"
       />
 
-      <div className="flex min-h-full items-center justify-center text-center">
+      <div className="flex min-h-full items-center justify-center p-6 text-center">
         <div
           className="relative p-6 transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 w-full max-w-md animate-in zoom-in-95 duration-200"
           onClick={(e) => e.stopPropagation()}>

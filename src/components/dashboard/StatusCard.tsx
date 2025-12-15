@@ -34,8 +34,8 @@ export default function StatusCard({
         </div>
       ) : (
         <>
-          <div className="flex items-end gap-2">
-            <span className="text-4xl font-bold text-red-600">
+          <div className="flex flex-wrap items-end gap-2">
+            <span className="text-4xl font-bold text-red-600 whitespace-nowrap">
               {daysRemaining} dni
             </span>
             <span className="text-zinc-600 mb-1.5 font-medium">
