@@ -42,7 +42,7 @@ function UpdatePasswordPage() {
       setError(error.message);
     } else {
       setMessage(
-        'Hasło zostało pomyślnie zmienione. Za chwilę zostaniesz przekierowany do logowania.'
+        'Hasło zostało zmienione. Za chwilę przeniesiemy Cię na stronę logowania.'
       );
       await signOut();
       setTimeout(() => {
