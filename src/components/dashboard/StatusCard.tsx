@@ -1,60 +1,138 @@
-import type { StatusCardProps } from "@/types";
+import { useState } from 'react';
+import type { StatusCardProps, DonationType } from '@/types';
 
 export default function StatusCard({
   daysRemaining,
   nextDate,
   progress,
   canDonate,
+  targetDonationType,
+  onTargetDonationTypeChange,
 }: StatusCardProps) {
-  return (
-    <section className={`p-6 rounded-lg border shadow-sm transition-all ${
-      canDonate 
-        ? 'bg-green-50 border-green-200'
-        : 'bg-white border-zinc-200'  
-    }`}>
-      <h2 className={`text-lg font-semibold mb-2 ${
-        canDonate ? 'text-green-800' : 'text-zinc-800'
-      }`}>
-        Twój status
-      </h2>
+  const [displayedType, setDisplayedType] = useState(targetDonationType);
 
-      {canDonate ? (
-        <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-2">
-            <span className="text-3xl font-bold text-green-600">
-              Możesz oddać krew
-            </span>
+  if (canDonate && displayedType !== targetDonationType) {
+    setDisplayedType(targetDonationType);
+  }
+
+  const donationTypes: { id: DonationType; label: string }[] = [
+    { id: 'krew_pelna', label: 'Krew' },
+    { id: 'osocze', label: 'Osocze' },
+    { id: 'plytki', label: 'Płytki' },
+  ];
+
+  return (
+    <section
+      className={`p-6 rounded-lg border shadow-sm transition-all grid duration-300 ease-in-out ${
+        canDonate ?
+          'bg-green-50 border-green-200 grid-rows-[1fr]'
+        : 'bg-white border-zinc-200 grid-rows-[0fr]'
+      }`}>
+      <div className="flex flex-col-reverse sm:flex-row sm:items-center justify-between mb-1 gap-4">
+        <h2
+          className={`text-lg font-semibold ${
+            canDonate ? 'text-green-800' : 'text-zinc-800'
+          }`}>
+          Twój status
+        </h2>
+
+        <div
+          className={`flex p-1 rounded-lg w-full sm:w-auto ${
+            canDonate ? 'bg-green-900/5' : 'bg-zinc-100'
+          }`}>
+          {donationTypes.map((type) => (
+            <button
+              key={type.id}
+              onClick={() => onTargetDonationTypeChange(type.id)}
+              className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all flex-1 sm:flex-none ${
+                targetDonationType === type.id ?
+                  `bg-white shadow-sm ${
+                    canDonate ? 'text-green-700' : 'text-zinc-800'
+                  }`
+                : `${
+                    canDonate ?
+                      'text-green-800/60 hover:text-green-800'
+                    : 'text-zinc-500 hover:text-zinc-700'
+                  }`
+              }`}>
+              {type.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex flex-col">
+        <div className="mb-4">
+          <div className="min-h-10 flex items-center">
+            {canDonate ?
+              <div className="flex items-center">
+                <span className="text-3xl font-bold text-green-600">
+                  Możesz już oddać{' '}
+                  {displayedType === 'osocze' ?
+                    'osocze'
+                  : displayedType === 'plytki' ?
+                    'płytki krwi'
+                  : 'krew pełną'}
+                </span>
+              </div>
+            : <div className="flex flex-wrap items-end gap-2">
+                <span className="text-4xl font-bold text-red-600 whitespace-nowrap">
+                  {daysRemaining > 1 ?
+                    `${daysRemaining} dni`
+                  : `${daysRemaining} dzień`}
+                </span>
+                <span className="text-zinc-600 mb-1.5 font-medium">
+                  {targetDonationType === 'osocze' ?
+                    'do kolejnej donacji osocza'
+                  : targetDonationType === 'plytki' ?
+                    'do kolejnej donacji płytek krwi'
+                  : 'do kolejnej donacji krwi pełnej'}
+                </span>
+              </div>
+            }
           </div>
-          <p className="text-green-700 font-medium">
-            Już teraz do punktu krwiodawstwa i uratuj ludzkie życie
-          </p>
-          <div className="w-full bg-green-200 rounded-full h-2.5 mt-4">
-            <div className="bg-green-500 h-2.5 rounded-full w-full"></div>
+
+          <div
+            className={`grid transition-all ease-in-out ${
+              canDonate ?
+                'grid-rows-[1fr] opacity-100 duration-600 delay-1200'
+              : 'grid-rows-[0fr] opacity-0 duration-300 delay-0'
+            }`}>
+            <div className="overflow-hidden">
+              <p
+                className={`font-medium transition-colors duration-300 ${
+                  canDonate ? 'text-green-700' : 'text-red-700'
+                }`}>
+                Już teraz udaj się do punktu krwiodawstwa i uratuj ludzkie życie
+              </p>
+            </div>
           </div>
         </div>
-      ) : (
-        <>
-          <div className="flex flex-wrap items-end gap-2">
-            <span className="text-4xl font-bold text-red-600 whitespace-nowrap">
-              {daysRemaining} dni
-            </span>
-            <span className="text-zinc-600 mb-1.5 font-medium">
-              do kolejnej donacji krwi pełnej
-            </span>
-          </div>
 
-          <div className="w-full bg-zinc-100 rounded-full h-2.5 mt-4 overflow-hidden">
-            <div
-              className="bg-red-600 h-2.5 rounded-full transition-all duration-1000 ease-out"
-              style={{ width: `${progress}%` }}
-            ></div>
-          </div>
+        <div
+          className={`w-full rounded-full h-2.5 overflow-hidden transform-gpu ${
+            canDonate ? 'bg-green-200' : 'bg-zinc-100'
+          }`}>
+          <div
+            className={`h-full rounded-full transition-[width] duration-600 ease-out ${
+              canDonate ? 'bg-green-500' : 'bg-red-600'
+            }`}
+            style={{ width: canDonate ? '100%' : `${progress}%` }}></div>
+        </div>
 
-          <p className="text-sm text-zinc-500 mt-6 text-right">
-            Przewidywana data: <span className="font-medium">{nextDate}</span>
-          </p>
-        </>
-      )}
+        <div
+          className={`grid transition-all duration-300 ease-in-out ${
+            !canDonate ?
+              'grid-rows-[1fr] opacity-100'
+            : 'grid-rows-[0fr] opacity-0'
+          }`}>
+          <div className="overflow-hidden">
+            <p className="text-sm text-zinc-500 mt-4 text-right">
+              Przewidywana data: <span className="font-medium">{nextDate}</span>
+            </p>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }
