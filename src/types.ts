@@ -41,6 +41,8 @@ export type StatusCardProps = {
   progress: number;
   nextDate: string;
   canDonate: boolean;
+  targetDonationType: string;
+  onTargetDonationTypeChange: (type: string) => void;
 };
 
 export type DonationsHistoryCardProps = {

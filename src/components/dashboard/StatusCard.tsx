@@ -93,15 +93,15 @@ export default function StatusCard({
           </div>
 
           <div
-            className={`grid transition-all ease-in-out ${
+            className={`grid transition-all duration-600 ease-in-out ${
               canDonate ?
-                'grid-rows-[1fr] opacity-100 duration-600 delay-1200'
-              : 'grid-rows-[0fr] opacity-0 duration-300 delay-0'
+                'grid-rows-[1fr] opacity-100 delay-1200'
+              : 'grid-rows-[0fr] opacity-0'
             }`}>
             <div className="overflow-hidden">
               <p
                 className={`font-medium transition-colors duration-300 ${
-                  canDonate ? 'text-green-700' : 'text-red-700'
+                  canDonate ? 'text-green-700 mb-1' : 'text-red-700'
                 }`}>
                 Już teraz udaj się do punktu krwiodawstwa i uratuj ludzkie życie
               </p>
@@ -121,13 +121,13 @@ export default function StatusCard({
         </div>
 
         <div
-          className={`grid transition-all duration-300 ease-in-out ${
+          className={`grid transition-all duration-600 ease-in-out ${
             !canDonate ?
-              'grid-rows-[1fr] opacity-100'
+              'grid-rows-[1fr] opacity-100 delay-1200'
             : 'grid-rows-[0fr] opacity-0'
           }`}>
           <div className="overflow-hidden">
-            <p className="text-sm text-zinc-500 mt-4 text-right">
+            <p className="text-sm text-zinc-500 mt-6 text-right">
               Przewidywana data: <span className="font-medium">{nextDate}</span>
             </p>
           </div>
