@@ -5,7 +5,6 @@ import { BaseDashboardCard } from '@/components/dashboard/BaseDashboardCard';
 import { AddDonationModal } from '@/components/AddDonationModal';
 import { ConfirmModal } from '@/components/ConfirmModal';
 import { useState, useEffect, useCallback } from 'react';
-import { Plus } from 'lucide-react';
 import { calculateNextDonation } from '@/utils';
 import DonationsHistoryCard from '@/components/dashboard/DonationsHistoryCard';
 import type { Donation } from '@/types';
@@ -45,13 +44,15 @@ function Dashboard() {
   const [donationToDelete, setDonationToDelete] = useState<string | null>(null);
   const [donations, setDonations] = useState<Donation[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [targetDonationType, setTargetDonationType] = useState('krew_pelna');
 
   const fetchDonations = useCallback(async () => {
     try {
       const { data, error } = await supabase
         .from('donations')
         .select('*')
-        .order('date', { ascending: false });
+        .order('date', { ascending: false })
+        .order('created_at', { ascending: false });
 
       if (error) throw error;
       if (data) {
@@ -73,7 +74,11 @@ function Dashboard() {
   // If there is a lastDonation, destructure the thing and calculate the next donation date, else default
   const { daysRemaining, nextDate, progress, canDonate } =
     lastDonation ?
-      calculateNextDonation(lastDonation.date)
+      calculateNextDonation(
+        lastDonation.date,
+        lastDonation.type,
+        targetDonationType
+      )
     : {
         daysRemaining: 0,
         nextDate: new Date().toLocaleDateString('pl-PL'),
@@ -213,21 +218,13 @@ function Dashboard() {
 
   return (
     <div className="max-w-7xl mx-auto space-y-8 pb-12">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 md:p-0">
-        <h1 className="text-3xl font-bold text-zinc-800">
-          Hej,{' '}
-          <span className="text-red-600">
-            {user?.user_metadata.first_name || 'Krwiodawco'}
-          </span>
-          . Dziękujemy za ratowanie życia.
-        </h1>
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className="bg-red-600 text-white font-semibold py-2.5 px-6 rounded-md hover:bg-red-700 transition-colors flex items-center gap-2 shadow-sm">
-          <Plus size={20} />
-          Dodaj donację
-        </button>
-      </div>
+      <h1 className="text-3xl font-bold text-zinc-800">
+        Hej,{' '}
+        <span className="text-red-600">
+          {user?.user_metadata.first_name || 'krwiodawco'}
+        </span>
+        . Dziękujemy za ratowanie życia.
+      </h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
@@ -236,6 +233,8 @@ function Dashboard() {
             progress={progress}
             daysRemaining={daysRemaining}
             canDonate={canDonate}
+            targetDonationType={targetDonationType}
+            onTargetDonationTypeChange={setTargetDonationType}
           />
 
           <BaseDashboardCard title="Historia donacji">
@@ -250,7 +249,7 @@ function Dashboard() {
         </div>
 
         <div className="space-y-6">
-          <BaseDashboardCard title="Odznaki ZHDK">
+          <BaseDashboardCard title="Odznaki">
             <BadgeGoalCard
               donations={donations}
               gender={user?.user_metadata?.gender}

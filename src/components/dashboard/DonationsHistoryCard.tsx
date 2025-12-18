@@ -11,17 +11,18 @@ const DonationsHistoryCard = ({
 }: DonationsHistoryCardProps) => {
   return (
     <>
-      <div className="space-y-3 grow">
+      <div className="flex flex-col grow">
         {donations.length === 0 ?
           <p className="text-zinc-500 text-sm">Brak zapisanych donacji.</p>
-        : donations.map((donation) => (
-            <DonationItem
-              key={donation.id}
-              donation={donation}
-              onDelete={onDelete}
-              onUpload={onUpload}
-              onViewResult={onViewResult}
-            />
+        : donations.map((donation, index) => (
+            <div className={index === donations.length - 1 ? '' : 'mb-3'}>
+              <DonationItem
+                donation={donation}
+                onDelete={onDelete}
+                onUpload={onUpload}
+                onViewResult={onViewResult}
+              />
+            </div>
           ))
         }
       </div>
