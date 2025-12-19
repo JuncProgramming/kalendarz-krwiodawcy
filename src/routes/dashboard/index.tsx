@@ -253,7 +253,7 @@ function Dashboard() {
               donations={donations}
               gender={user?.user_metadata?.gender}
             />
-            <div className="my-6 border-t border-zinc-100"></div>
+            <div className="my-4 border-t border-zinc-200"></div>
             <BadgesGalleryCard
               donations={donations}
               gender={user?.user_metadata?.gender}
@@ -261,6 +261,8 @@ function Dashboard() {
           </BaseDashboardCard>
 
           <StatisticsCard donations={donations} />
+
+          <TaxReliefCalculator donations={donations} />
 
           <BaseDashboardCard title="Przypomnienia">
             <p className="text-zinc-600 mb-6 text-sm">
