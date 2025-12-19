@@ -28,7 +28,7 @@ export default function StatusCard({
           'bg-green-50 border-green-200 grid-rows-[1fr]'
         : 'bg-white border-zinc-200 grid-rows-[0fr]'
       }`}>
-      <div className="flex flex-col-reverse sm:flex-row sm:items-center justify-between mb-1 gap-4">
+      <div className="flex flex-col-reverse md:flex-row md:items-center justify-between mb-1 gap-4">
         <h2
           className={`text-lg font-semibold ${
             canDonate ? 'text-green-800' : 'text-zinc-800'
@@ -37,14 +37,14 @@ export default function StatusCard({
         </h2>
 
         <div
-          className={`flex p-1 rounded-lg w-full sm:w-auto ${
+          className={`flex p-1 rounded-lg w-full md:w-auto ${
             canDonate ? 'bg-green-900/5' : 'bg-zinc-100'
           }`}>
           {donationTypes.map((type) => (
             <button
               key={type.id}
               onClick={() => onTargetDonationTypeChange(type.id)}
-              className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all flex-1 sm:flex-none ${
+              className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all flex-1 md:flex-none justify-center ${
                 targetDonationType === type.id ?
                   `bg-white shadow-sm ${
                     canDonate ? 'text-green-700' : 'text-zinc-800'

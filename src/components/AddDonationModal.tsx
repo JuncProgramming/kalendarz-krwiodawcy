@@ -115,7 +115,7 @@ export function AddDonationModal({
                   required
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
-                  className="p-2 border border-zinc-300 rounded-md focus:ring-red-500 focus:border-red-500"
+                  className="w-full p-2 border border-zinc-300 rounded-md focus:ring-red-500 focus:border-red-500"
                 />
               </div>
 
@@ -175,7 +175,7 @@ export function AddDonationModal({
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
                   placeholder="np. RCKiK Kraków"
-                  className="p-2 border border-zinc-300 rounded-md focus:ring-red-500 focus:border-red-500"
+                  className="w-full p-2 border border-zinc-300 rounded-md focus:ring-red-500 focus:border-red-500"
                 />
               </div>
 

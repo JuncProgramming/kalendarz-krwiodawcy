@@ -10,6 +10,7 @@ import DonationsHistoryCard from '@/components/dashboard/DonationsHistoryCard';
 import type { Donation } from '@/types';
 import StatusCard from '@/components/dashboard/StatusCard';
 import StatisticsCard from '@/components/dashboard/StatisticsCard';
+import { TaxReliefCalculator } from '@/components/dashboard/TaxReliefCalculator';
 import BadgeGoalCard from '@/components/dashboard/BadgeGoalCard';
 import BadgesGalleryCard from '@/components/dashboard/BadgesGalleryCard';
 import { toast } from 'react-toastify';
@@ -237,15 +238,13 @@ function Dashboard() {
             onTargetDonationTypeChange={setTargetDonationType}
           />
 
-          <BaseDashboardCard title="Historia donacji">
-            <DonationsHistoryCard
-              donations={donations}
-              onClick={() => setIsModalOpen(true)}
-              onDelete={handleDeleteDonation}
-              onUpload={handleUploadResults}
-              onViewResult={handleViewResult}
-            />
-          </BaseDashboardCard>
+          <DonationsHistoryCard
+            donations={donations}
+            onClick={() => setIsModalOpen(true)}
+            onDelete={handleDeleteDonation}
+            onUpload={handleUploadResults}
+            onViewResult={handleViewResult}
+          />
         </div>
 
         <div className="space-y-6">
@@ -261,9 +260,7 @@ function Dashboard() {
             />
           </BaseDashboardCard>
 
-          <BaseDashboardCard title="Statystyki">
-            <StatisticsCard donations={donations} />
-          </BaseDashboardCard>
+          <StatisticsCard donations={donations} />
 
           <BaseDashboardCard title="Przypomnienia">
             <p className="text-zinc-600 mb-6 text-sm">
