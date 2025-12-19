@@ -32,7 +32,7 @@ export function ConfirmModal({
         <div
           className="relative p-6 transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 w-full max-w-md animate-in zoom-in-95 duration-200"
           onClick={(e) => e.stopPropagation()}>
-          <div className="flex border-b border-zinc-100 pb-4 mb-4 justify-between items-center">
+          <div className="flex border-b border-zinc-200 pb-4 mb-4 justify-between items-center">
             <h3 className="text-xl font-bold text-zinc-800">Usuń donację</h3>
             <button
               onClick={onClose}

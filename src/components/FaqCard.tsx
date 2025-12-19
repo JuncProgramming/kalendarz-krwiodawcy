@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import { type FaqCardProps } from '@/types';
 
 function FaqCard({ question, children }: FaqCardProps) {
@@ -13,9 +13,11 @@ function FaqCard({ question, children }: FaqCardProps) {
           onClick={() => setIsOpen(!isOpen)}
           className="p-2 rounded-md hover:bg-zinc-100 transition-colors"
           aria-label={isOpen ? 'Zwiń odpowiedź' : 'Rozwiń odpowiedź'}>
-          {isOpen ?
-            <ChevronUp className="shrink-0" />
-          : <ChevronDown className="shrink-0" />}
+          <ChevronDown
+            className={`shrink-0 transition-transform duration-200 ${
+              isOpen ? 'rotate-180' : ''
+            }`}
+          />
         </button>
       </div>
 

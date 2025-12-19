@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { BadgeComponentProps } from '@/types';
-import { Medal, ChevronDown, ChevronUp } from 'lucide-react';
+import { Medal, ChevronDown } from 'lucide-react';
 import { useBadges } from '@/hooks/useBadges';
 
 const BadgesGalleryCard = ({ donations, gender }: BadgeComponentProps) => {
@@ -9,15 +9,18 @@ const BadgesGalleryCard = ({ donations, gender }: BadgeComponentProps) => {
 
   return (
     <div className="w-full">
-      <div className="flex w-full items-center justify-between mb-4">
+      <div className="flex w-full items-center justify-between">
         <span className="font-medium text-zinc-700">Galeria odznak</span>
         <button
           onClick={() => setIsGalleryOpen(!isGalleryOpen)}
           className="p-2 rounded-md hover:bg-zinc-100 transition-colors"
           aria-label={isGalleryOpen ? 'Zwiń galerię' : 'Rozwiń galerię'}>
-          {isGalleryOpen ?
-            <ChevronUp className="shrink-0" size={20} />
-          : <ChevronDown className="shrink-0" size={20} />}
+          <ChevronDown
+            className={`shrink-0 transition-transform duration-200 ${
+              isGalleryOpen ? 'rotate-180' : ''
+            }`}
+            size={20}
+          />
         </button>
       </div>
 
@@ -28,7 +31,7 @@ const BadgesGalleryCard = ({ donations, gender }: BadgeComponentProps) => {
           : 'grid-rows-[0fr] opacity-0'
         }`}>
         <div className="overflow-hidden">
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-2 pt-4">
             {badges.map((badge) => {
               const isUnlocked = badge.isUnlocked;
 
