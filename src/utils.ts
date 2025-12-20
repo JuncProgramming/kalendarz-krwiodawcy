@@ -1,5 +1,33 @@
-export const calculateNextDonation = (lastDonationDateStr: string) => {
-  const donationWaitTime = 56;
+import { TAX_RELIEF_PER_LITER, TYPE_VOLUME_MULTIPLIER } from './constants';
+
+export const normalizeType = (type: string) => {
+  if (type === 'Krew pełna' || type === 'krew_pelna') return 'krew_pelna';
+  if (type === 'Osocze' || type === 'osocze') return 'osocze';
+  if (type === 'Płytki krwi' || type === 'plytki') return 'plytki';
+  return 'krew_pelna';
+};
+
+export const calculateNextDonation = (
+  lastDonationDateStr: string,
+  lastDonationType: string = 'Krew pełna',
+  targetDonationType: string = 'Krew pełna'
+) => {
+  const lastType = normalizeType(lastDonationType);
+  const targetType = normalizeType(targetDonationType);
+
+  let donationWaitTime = 56;
+
+  if (lastType === 'krew_pelna') {
+    if (targetType === 'krew_pelna') {
+      donationWaitTime = 56;
+    } else {
+      donationWaitTime = 28;
+    }
+  } else if (lastType === targetType) {
+    donationWaitTime = 14;
+  } else {
+    donationWaitTime = 2;
+  }
 
   const lastDate = new Date(lastDonationDateStr);
 
@@ -24,6 +52,25 @@ export const calculateNextDonation = (lastDonationDateStr: string) => {
     canDonate: daysRemaining <= 0,
     nextDate: nextDate.toLocaleDateString('pl-PL'),
     progress,
+  };
+};
+
+export const calculateTaxRelief = (donations: any[], year: number) => {
+  const yearDonations = donations.filter(
+    (donation) => new Date(donation.date).getFullYear() === year
+  );
+
+  const totalAmount = yearDonations.reduce((acc, curr) => {
+    const type = normalizeType(
+      curr.type
+    ) as keyof typeof TYPE_VOLUME_MULTIPLIER;
+    const volume = TYPE_VOLUME_MULTIPLIER[type] || 0;
+    return acc + volume * TAX_RELIEF_PER_LITER;
+  }, 0);
+
+  return {
+    amount: Math.round(totalAmount * 100) / 100,
+    donationCount: yearDonations.length,
   };
 };
 
