@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router';
-import { Droplet, Menu, X, LogOut, User } from 'lucide-react';
+import { Menu, X, LogOut, User } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 

@@ -1,50 +1,142 @@
 import type { Donation } from '@/types';
-import { Droplet, Heart, Activity } from 'lucide-react';
+import { Droplet, Activity, Calendar, Hash } from 'lucide-react';
 import { BaseDashboardCard } from './BaseDashboardCard';
+import { normalizeType } from '@/utils';
 
 const StatisticsCard = ({ donations }: { donations: Donation[] }) => {
-  const totalLiters = parseFloat((donations.length * 0.45).toFixed(2));
-  const savedLives = donations.length * 3;
+  const statsByType = donations.reduce(
+    (acc, curr) => {
+      const type = normalizeType(curr.type);
+      let volume = 0;
+      volume = curr.amount / 1000;
+      acc.total += volume;
+
+      if (type === 'krew_pelna') acc.krew_pelna += volume;
+      if (type === 'osocze') acc.osocze += volume;
+      if (type === 'plytki') acc.plytki_krwi += volume;
+
+      return acc;
+    },
+    { total: 0, krew_pelna: 0, osocze: 0, plytki_krwi: 0 }
+  );
+
+  const totalLiters = parseFloat(statsByType.total.toFixed(2));
+
+  const savedLives = Math.floor((totalLiters / 0.45) * 3);
+
+  const totalDonations = donations.length;
+  const lastDonationDate =
+    donations.length > 0 ?
+      new Date(Math.max(...donations.map((d) => new Date(d.date).getTime())))
+    : null;
 
   return (
     <BaseDashboardCard title="Statystyki">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="relative overflow-hidden bg-linear-to-br from-red-500 to-red-600 rounded-2xl p-4 sm:p-5 text-white shadow-lg shadow-red-200 transition-transform hover:scale-[1.02] duration-300">
-          <div className="relative z-10 flex flex-col h-full justify-between min-h-[100px]">
-            <div className="flex items-center gap-2 text-red-100 mb-2">
-              <Activity size={16} className="shrink-0" />
-              <span className="text-xs font-bold uppercase tracking-wider">
-                Uratowane życia
-              </span>
-            </div>
-            <p className="text-4xl font-extrabold tracking-tight">
-              {savedLives}
-            </p>
+      <div className="flex flex-col gap-3">
+        <div className="flex items-center p-2.5 sm:p-3 bg-red-50/50 rounded-xl border border-red-200">
+          <div className="p-1.5 sm:p-2 bg-red-100 text-red-600 rounded-lg shrink-0 mr-3">
+            <Activity className="w-4 h-4 sm:w-5 sm:h-5" />
           </div>
-          <Heart
-            className="absolute -bottom-6 -right-6 w-32 h-32 text-white/10 rotate-12"
-            fill="currentColor"
-          />
+          <div className="flex flex-col">
+            <span className="text-sm sm:text-base font-medium text-zinc-700">
+              Uratowane życia
+            </span>
+            <span className="text-lg sm:text-xl font-bold text-red-700 leading-none mt-0.5">
+              {savedLives}
+            </span>
+          </div>
         </div>
 
-        <div className="relative overflow-hidden bg-zinc-900 rounded-2xl p-4 sm:p-5 text-white shadow-lg transition-transform hover:scale-[1.02] duration-300 group">
-          <div className="relative z-10 flex flex-col h-full justify-between min-h-[100px]">
-            <div className="flex items-center gap-2 text-zinc-400 mb-2">
-              <Droplet size={16} className="text-red-500 shrink-0" />
-              <span className="text-xs font-bold uppercase tracking-wider">
-                Oddana krew
+        <div className="flex items-center p-2.5 sm:p-3 bg-red-50/50 rounded-xl border border-red-200">
+          <div className="p-1.5 sm:p-2 bg-red-100 text-red-600 rounded-lg shrink-0 mr-3">
+            <Droplet fill="currentColor" className="w-4 h-4 sm:w-5 sm:h-5" />
+          </div>
+          <div className="flex flex-col">
+            <span className="text-sm sm:text-base font-medium text-zinc-700">
+              Oddana krew pełna
+            </span>
+            <span className="text-lg sm:text-xl font-bold text-red-700 leading-none mt-0.5">
+              {statsByType.krew_pelna === 0 ?
+                '0'
+              : statsByType.krew_pelna.toFixed(2)}{' '}
+              <span className="text-xs sm:text-sm font-normal text-zinc-900">
+                L
+              </span>
+            </span>
+          </div>
+        </div>
+
+        {statsByType.osocze > 0 && (
+          <div className="flex items-center p-2.5 sm:p-3 bg-orange-50/50 rounded-xl border border-orange-200">
+            <div className="p-1.5 sm:p-2 bg-orange-100 text-orange-600 rounded-lg shrink-0 mr-3">
+              <Droplet fill="currentColor" className="w-4 h-4 sm:w-5 sm:h-5" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-sm sm:text-base font-medium text-zinc-700">
+                Oddane osocze
+              </span>
+              <span className="text-lg sm:text-xl font-bold text-orange-700 leading-none mt-0.5">
+                {statsByType.osocze === 0 ? '0' : statsByType.osocze.toFixed(2)}{' '}
+                <span className="text-xs sm:text-sm font-normal text-zinc-900">
+                  L
+                </span>
               </span>
             </div>
-            <p className="text-3xl font-bold text-white">
-              {totalLiters}{' '}
-              <span className="text-lg text-zinc-500 font-medium">L</span>
-            </p>
           </div>
-          <Droplet
-            className="absolute -bottom-4 -right-4 w-24 h-24 text-zinc-800  transition-colors rotate-12"
-            fill="none"
-          />
+        )}
+
+        {statsByType.plytki_krwi > 0 && (
+          <div className="flex items-center p-2.5 sm:p-3 bg-yellow-50/50 rounded-xl border border-yellow-200">
+            <div className="p-1.5 sm:p-2 bg-yellow-100 text-yellow-600 rounded-lg shrink-0 mr-3">
+              <Droplet fill="currentColor" className="w-4 h-4 sm:w-5 sm:h-5" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-sm sm:text-base font-medium text-zinc-700">
+                Oddane płytki krwi
+              </span>
+              <span className="text-lg sm:text-xl font-bold text-yellow-700 leading-none mt-0.5">
+                {statsByType.plytki_krwi === 0 ?
+                  '0'
+                : statsByType.plytki_krwi.toFixed(2)}{' '}
+                <span className="text-xs sm:text-sm font-normal text-zinc-900">
+                  L
+                </span>
+              </span>
+            </div>
+          </div>
+        )}
+
+        <div className="flex items-center p-2.5 sm:p-3 bg-zinc-50/50 rounded-xl border border-zinc-200">
+          <div className="p-1.5 sm:p-2 bg-white text-zinc-600 rounded-lg border border-zinc-200 shrink-0 mr-3">
+            <Hash className="w-4 h-4 sm:w-5 sm:h-5" />
+          </div>
+          <div className="flex flex-col">
+            <span className="text-sm sm:text-base font-medium text-zinc-700">
+              Liczba donacji
+            </span>
+            <span className="text-lg sm:text-xl font-bold text-zinc-900 leading-none mt-0.5">
+              {totalDonations}
+            </span>
+          </div>
         </div>
+
+        {totalDonations > 0 && (
+          <div className="flex items-center p-2.5 sm:p-3 bg-zinc-50/50 rounded-xl border border-zinc-200">
+            <div className="p-1.5 sm:p-2 bg-white text-zinc-600 rounded-lg border border-zinc-200 shrink-0 mr-3">
+              <Calendar className="w-4 h-4 sm:w-5 sm:h-5" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-sm sm:text-base font-medium text-zinc-700">
+                Ostatnia donacja
+              </span>
+              <span className="text-base sm:text-lg font-bold text-zinc-900 leading-none mt-0.5">
+                {lastDonationDate ?
+                  lastDonationDate.toLocaleDateString('pl-PL')
+                : '-'}
+              </span>
+            </div>
+          </div>
+        )}
       </div>
     </BaseDashboardCard>
   );

@@ -101,9 +101,9 @@ export function AddDonationModal({
         onClick={onClose}
         aria-hidden="true"></div>
 
-      <div className="flex min-h-full items-center justify-center p-6 text-center">
+      <div className="flex min-h-full items-center justify-center p-4 text-center sm:p-6">
         <div
-          className="relative p-6 transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 w-full max-w-md animate-in zoom-in-95 duration-200"
+          className="relative p-4 sm:p-6 transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 w-full max-w-lg animate-in zoom-in-95 duration-200"
           onClick={(e) => e.stopPropagation()}>
           <div className="flex border-b border-zinc-200 pb-4 mb-4 justify-between items-center">
             <h3 className="text-xl font-bold text-zinc-800">
@@ -140,89 +140,106 @@ export function AddDonationModal({
                   Typ donacji
                 </label>
                 <div className="space-y-2">
-                  <div className="flex items-center gap-2">
-                    <label className="flex-1 flex items-center p-3 border border-zinc-300 rounded-md cursor-pointer hover:bg-zinc-50 transition-colors">
+                  <div className="flex items-stretch">
+                    <label className="flex-1 flex items-center p-2.5 border border-zinc-300 rounded-md cursor-pointer hover:bg-zinc-50 transition-colors min-w-0">
                       <input
                         type="radio"
                         name="donationType"
                         value="Krew pełna"
                         checked={type === 'Krew pełna'}
                         onChange={(e) => handleTypeChange(e.target.value)}
-                        className="w-4 h-4 text-red-600 focus:ring-red-500"
+                        className="w-4 h-4 text-red-600 focus:ring-red-500 shrink-0"
                       />
-                      <span className="ml-3 text-zinc-700">Krew pełna</span>
+                      <span className="ml-2 text-sm text-zinc-700 truncate">
+                        Krew pełna
+                      </span>
                     </label>
-                    {type === 'Krew pełna' && (
-                      <div className="w-28 relative">
+                    <div
+                      className={`transition-all duration-300 ease-in-out overflow-hidden ${
+                        type === 'Krew pełna' ?
+                          'w-24 opacity-100 ml-2'
+                        : 'w-0 opacity-0 ml-0'
+                      }`}>
+                      <div className="w-24 relative h-full">
                         <input
                           type="number"
                           value={amount}
                           onChange={(e) => setAmount(Number(e.target.value))}
-                          className="w-full p-3 pr-8 border border-zinc-300 rounded-md text-center font-medium text-zinc-700 bg-white hover:bg-zinc-50 transition-all focus:outline-none"
+                          className="w-full h-full p-3 pr-8 border border-zinc-300 rounded-md text-center font-medium text-zinc-700 bg-white hover:bg-zinc-50 transition-all focus:outline-none"
                         />
                         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-zinc-400 pointer-events-none">
                           ml
                         </span>
                       </div>
-                    )}
+                    </div>
                   </div>
 
-                  <div className="flex items-center gap-2">
-                    <label className="flex-1 flex items-center p-3 border border-zinc-300 rounded-md cursor-pointer hover:bg-zinc-50 transition-colors">
+                  <div className="flex items-stretch">
+                    <label className="flex-1 flex items-center p-2.5 border border-zinc-300 rounded-md cursor-pointer hover:bg-zinc-50 transition-colors min-w-0">
                       <input
                         type="radio"
                         name="donationType"
                         value="Osocze"
                         checked={type === 'Osocze'}
                         onChange={(e) => handleTypeChange(e.target.value)}
-                        className="w-4 h-4 text-red-600 focus:ring-red-500"
+                        className="w-4 h-4 text-red-600 focus:ring-red-500 shrink-0"
                       />
-                      <span className="ml-3 text-zinc-700">
+                      <span className="ml-2 text-sm text-zinc-700 truncate">
                         Osocze (Plazma)
                       </span>
                     </label>
-                    {type === 'Osocze' && (
-                      <div className="w-28 relative">
+                    <div
+                      className={`transition-all duration-300 ease-in-out overflow-hidden ${
+                        type === 'Osocze' ?
+                          'w-24 opacity-100 ml-2'
+                        : 'w-0 opacity-0 ml-0'
+                      }`}>
+                      <div className="w-24 relative h-full">
                         <input
                           type="number"
                           value={amount}
                           onChange={(e) => setAmount(Number(e.target.value))}
-                          className="w-full p-3 pr-8 border border-zinc-300 rounded-md text-center font-medium text-zinc-700 bg-white hover:bg-zinc-50 transition-all focus:outline-none"
+                          className="w-full h-full p-3 pr-8 border border-zinc-300 rounded-md text-center font-medium text-zinc-700 bg-white hover:bg-zinc-50 transition-all focus:outline-none"
                         />
                         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-zinc-400 pointer-events-none">
                           ml
                         </span>
                       </div>
-                    )}
+                    </div>
                   </div>
 
-                  <div className="flex items-center gap-2">
-                    <label className="flex-1 flex items-center p-3 border border-zinc-300 rounded-md cursor-pointer hover:bg-zinc-50 transition-colors">
+                  <div className="flex items-stretch">
+                    <label className="flex-1 flex items-center p-2.5 border border-zinc-300 rounded-md cursor-pointer hover:bg-zinc-50 transition-colors min-w-0">
                       <input
                         type="radio"
                         name="donationType"
                         value="Płytki krwi"
                         checked={type === 'Płytki krwi'}
                         onChange={(e) => handleTypeChange(e.target.value)}
-                        className="w-4 h-4 text-red-600 focus:ring-red-500"
+                        className="w-4 h-4 text-red-600 focus:ring-red-500 shrink-0"
                       />
-                      <span className="ml-3 text-zinc-700">
+                      <span className="ml-2 text-sm text-zinc-700 truncate">
                         Płytki krwi (Trombocyty)
                       </span>
                     </label>
-                    {type === 'Płytki krwi' && (
-                      <div className="w-28 relative">
+                    <div
+                      className={`transition-all duration-300 ease-in-out overflow-hidden ${
+                        type === 'Płytki krwi' ?
+                          'w-24 opacity-100 ml-2'
+                        : 'w-0 opacity-0 ml-0'
+                      }`}>
+                      <div className="w-24 relative h-full">
                         <input
                           type="number"
                           value={amount}
                           onChange={(e) => setAmount(Number(e.target.value))}
-                          className="w-full p-3 pr-8 border border-zinc-300 rounded-md text-center font-medium text-zinc-700 bg-white hover:bg-zinc-50 transition-all focus:outline-none"
+                          className="w-full h-full p-3 pr-8 border border-zinc-300 rounded-md text-center font-medium text-zinc-700 bg-white hover:bg-zinc-50 transition-all focus:outline-none"
                         />
                         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-zinc-400 pointer-events-none">
                           ml
                         </span>
                       </div>
-                    )}
+                    </div>
                   </div>
                 </div>
               </div>

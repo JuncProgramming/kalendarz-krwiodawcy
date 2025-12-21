@@ -8,8 +8,8 @@ export const Route = createFileRoute('/faq/')({
 
 function FaqPage() {
   return (
-    <div className="w-full space-y-12 flex-col flex items-center">
-      <h1 className="text-4xl text-center font-semibold text-zinc-700 p-4">
+    <div className="w-full space-y-8 flex-col flex items-center">
+      <h1 className="text-2xl sm:text-4xl leading-tight text-center font-semibold text-zinc-700 sm:p-8">
         Jak zacząć oddawać krew?
       </h1>
       <div className="w-full max-w-3xl space-y-3">
@@ -21,7 +21,7 @@ function FaqPage() {
       </div>
 
       <div className="text-center">
-        <p className="text-lg text-zinc-600">
+        <p className="text-base text-zinc-600">
           Nie wyczerpaliśmy wszystkich pytań?{' '}
           <a
             href="https://www.gov.pl/web/nck"

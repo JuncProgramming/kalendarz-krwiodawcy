@@ -7,22 +7,24 @@ export const Route = createFileRoute('/')({
 
 function HomePage() {
   return (
-    <div className="space-y-12 max-w-5xl w-full flex-col flex items-center">
-      <h1 className="text-5xl/12 text-center font-semibold text-zinc-700 p-8">
-        Twoja krew może ocalić <br className="hidden xl:block" /> ludzkie{' '}
-        <span className="text-red-600">życie</span>. Pomóż innym.{' '}
-        <br className="hidden xl:block" /> Zostań krwiodawcą.
+    <div className="space-y-8 max-w-5xl w-full flex-col flex items-center">
+      <h1 className="text-2xl sm:text-4xl lg:text-5xl leading-tight text-center font-semibold text-zinc-700 sm:p-8">
+        <span className="whitespace-nowrap">Twoja krew może ocalić</span> <br />
+        <span className="whitespace-nowrap">
+          ludzkie <span className="text-red-600">życie</span>. Pomóż innym.
+        </span>{' '}
+        <br /> <span className="whitespace-nowrap">Zostań krwiodawcą.</span>
       </h1>
 
-      <div className="w-full max-w-2xl p-6 bg-zinc-50 border border-zinc-200 rounded-lg shadow-md">
-        <h2 className="font-semibold text-center pb-8 text-xl text-zinc-600">
-          Pierwszą dotację masz za sobą? Sprawdź możliwy termin kolejnej.
+      <div className="w-full max-w-2xl p-8 bg-zinc-50 border border-zinc-200 rounded-xl shadow-sm">
+        <h2 className="font-semibold text-center mb-8 text-xl text-zinc-600">
+          Pierwszą donację masz za sobą? Sprawdź możliwy termin kolejnej.
         </h2>
         <DonationCalculator />
       </div>
 
       <div className="text-center">
-        <p className="text-lg text-zinc-600">
+        <p className="text-base text-zinc-600">
           Jesteś tu pierwszy raz?{' '}
           <Link
             to="/faq"
