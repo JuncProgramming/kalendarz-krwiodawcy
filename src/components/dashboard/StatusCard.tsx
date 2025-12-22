@@ -75,13 +75,13 @@ export default function StatusCard({
                   : 'krew pełną'}
                 </span>
               </div>
-            : <div className="flex flex-wrap items-end gap-2">
-                <span className="text-4xl font-bold text-red-600 whitespace-nowrap">
+            : <div className="flex items-center gap-3">
+                <span className="text-4xl font-bold text-red-600 whitespace-nowrap shrink-0">
                   {daysRemaining > 1 ?
                     `${daysRemaining} dni`
                   : `${daysRemaining} dzień`}
                 </span>
-                <span className="text-zinc-600 mb-1.5 font-medium">
+                <span className="text-zinc-600 font-medium leading-tight text-balance">
                   {targetDonationType === 'osocze' ?
                     'do kolejnej donacji osocza'
                   : targetDonationType === 'plytki' ?

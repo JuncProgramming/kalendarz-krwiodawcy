@@ -39,9 +39,8 @@ export function Header() {
         <nav className="max-w-[2560px] mx-auto flex items-center justify-between px-4 py-3 md:px-6 md:py-4">
           <Link
             to="/"
-            className="flex items-center gap-1.5 md:gap-2 text-base md:text-lg font-bold text-red-600 hover:text-red-700 transition-colors">
-            <Droplet className="shrink-0" size={20} />
-            <span className="whitespace-nowrap">Kalendarz Krwiodawcy</span>
+            className="flex items-center text-base md:text-lg font-bold text-red-600 hover:text-red-700 transition-colors">
+            <span className="whitespace-nowrap">Centrum Krwiodawcy</span>
           </Link>
 
           <div className="hidden md:flex items-center gap-3 lg:gap-4">
