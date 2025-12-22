@@ -7,6 +7,7 @@ export type Donation = {
   type: 'krew_pelna' | 'osocze' | 'plytki';
   date: string;
   location: string;
+  amount: number;
   results_url?: string;
 };
 
@@ -32,6 +33,7 @@ export type AddDonationModalProps = {
     date: string;
     type: string;
     location: string;
+    amount: number;
     file?: File | null;
   }) => void;
 };

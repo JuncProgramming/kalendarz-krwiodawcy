@@ -1,10 +1,24 @@
 import { useMemo } from 'react';
 import type { BadgeComponentProps } from '@/types';
 import { badges } from '@/data/badges';
+import { normalizeType } from '@/utils';
+import { TYPE_VOLUME_MULTIPLIER } from '@/constants';
 
 export const useBadges = ({ donations, gender }: BadgeComponentProps) => {
   const stats = useMemo(() => {
-    const totalLiters = donations.length * 0.45;
+    // To confirm with the RCKiK, don't know the convertion
+    const totalLiters = donations.reduce((acc, curr) => {
+      let volume = 0;
+      if (curr.amount) {
+        volume = curr.amount / 1000;
+      } else {
+        const type = normalizeType(
+          curr.type
+        ) as keyof typeof TYPE_VOLUME_MULTIPLIER;
+        volume = TYPE_VOLUME_MULTIPLIER[type] || 0;
+      }
+      return acc + volume;
+    }, 0);
 
     const badgesWithStatus = badges.map((badge) => {
       const threshold = badge.thresholdLiters(gender);

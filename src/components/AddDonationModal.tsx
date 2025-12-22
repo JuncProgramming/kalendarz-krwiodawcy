@@ -14,6 +14,7 @@ export function AddDonationModal({
 
   const [date, setDate] = useState(defaultDate);
   const [type, setType] = useState('Krew pełna');
+  const [amount, setAmount] = useState(450);
   const [location, setLocation] = useState('RCKiK Warszawa');
   const [file, setFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -24,6 +25,7 @@ export function AddDonationModal({
       document.body.style.overflow = 'hidden';
       setDate(defaultDate);
       setType('Krew pełna');
+      setAmount(450);
       setLocation('RCKiK Warszawa');
       setFile(null);
     } else {
@@ -38,13 +40,26 @@ export function AddDonationModal({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (amount <= 0) {
+      toast.error('Ilość oddanej krwi musi być większa od 0ml');
+      return;
+    }
+
     setIsSubmitting(true);
 
     setTimeout(() => {
-      onSave({ date, type, location, file });
+      onSave({ date, type, location, amount, file });
       setIsSubmitting(false);
       onClose();
     }, 500);
+  };
+
+  const handleTypeChange = (newType: string) => {
+    setType(newType);
+    if (newType === 'Krew pełna') setAmount(450);
+    if (newType === 'Osocze') setAmount(650);
+    if (newType === 'Płytki krwi') setAmount(500);
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -114,6 +129,7 @@ export function AddDonationModal({
                   id="date"
                   required
                   value={date}
+                  max={date}
                   onChange={(e) => setDate(e.target.value)}
                   className="w-full p-2 border border-zinc-300 rounded-md focus:ring-red-500 focus:border-red-500"
                 />
@@ -124,41 +140,90 @@ export function AddDonationModal({
                   Typ donacji
                 </label>
                 <div className="space-y-2">
-                  <label className="flex items-center p-3 border border-zinc-300 rounded-md cursor-pointer hover:bg-zinc-50 transition-colors">
-                    <input
-                      type="radio"
-                      name="donationType"
-                      value="Krew pełna"
-                      checked={type === 'Krew pełna'}
-                      onChange={(e) => setType(e.target.value)}
-                      className="w-4 h-4 text-red-600 focus:ring-red-500"
-                    />
-                    <span className="ml-3 text-zinc-700">Krew pełna</span>
-                  </label>
-                  <label className="flex items-center p-3 border border-zinc-300 rounded-md cursor-pointer hover:bg-zinc-50 transition-colors">
-                    <input
-                      type="radio"
-                      name="donationType"
-                      value="Osocze"
-                      checked={type === 'Osocze'}
-                      onChange={(e) => setType(e.target.value)}
-                      className="w-4 h-4 text-red-600 focus:ring-red-500"
-                    />
-                    <span className="ml-3 text-zinc-700">Osocze (Plazma)</span>
-                  </label>
-                  <label className="flex items-center p-3 border border-zinc-300 rounded-md cursor-pointer hover:bg-zinc-50 transition-colors">
-                    <input
-                      type="radio"
-                      name="donationType"
-                      value="Płytki krwi"
-                      checked={type === 'Płytki krwi'}
-                      onChange={(e) => setType(e.target.value)}
-                      className="w-4 h-4 text-red-600 focus:ring-red-500"
-                    />
-                    <span className="ml-3 text-zinc-700">
-                      Płytki krwi (Trombocyty)
-                    </span>
-                  </label>
+                  <div className="flex items-center gap-2">
+                    <label className="flex-1 flex items-center p-3 border border-zinc-300 rounded-md cursor-pointer hover:bg-zinc-50 transition-colors">
+                      <input
+                        type="radio"
+                        name="donationType"
+                        value="Krew pełna"
+                        checked={type === 'Krew pełna'}
+                        onChange={(e) => handleTypeChange(e.target.value)}
+                        className="w-4 h-4 text-red-600 focus:ring-red-500"
+                      />
+                      <span className="ml-3 text-zinc-700">Krew pełna</span>
+                    </label>
+                    {type === 'Krew pełna' && (
+                      <div className="w-28 relative">
+                        <input
+                          type="number"
+                          value={amount}
+                          onChange={(e) => setAmount(Number(e.target.value))}
+                          className="w-full p-3 pr-8 border border-zinc-300 rounded-md text-center font-medium text-zinc-700 bg-white hover:bg-zinc-50 transition-all focus:outline-none"
+                        />
+                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-zinc-400 pointer-events-none">
+                          ml
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <label className="flex-1 flex items-center p-3 border border-zinc-300 rounded-md cursor-pointer hover:bg-zinc-50 transition-colors">
+                      <input
+                        type="radio"
+                        name="donationType"
+                        value="Osocze"
+                        checked={type === 'Osocze'}
+                        onChange={(e) => handleTypeChange(e.target.value)}
+                        className="w-4 h-4 text-red-600 focus:ring-red-500"
+                      />
+                      <span className="ml-3 text-zinc-700">
+                        Osocze (Plazma)
+                      </span>
+                    </label>
+                    {type === 'Osocze' && (
+                      <div className="w-28 relative">
+                        <input
+                          type="number"
+                          value={amount}
+                          onChange={(e) => setAmount(Number(e.target.value))}
+                          className="w-full p-3 pr-8 border border-zinc-300 rounded-md text-center font-medium text-zinc-700 bg-white hover:bg-zinc-50 transition-all focus:outline-none"
+                        />
+                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-zinc-400 pointer-events-none">
+                          ml
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <label className="flex-1 flex items-center p-3 border border-zinc-300 rounded-md cursor-pointer hover:bg-zinc-50 transition-colors">
+                      <input
+                        type="radio"
+                        name="donationType"
+                        value="Płytki krwi"
+                        checked={type === 'Płytki krwi'}
+                        onChange={(e) => handleTypeChange(e.target.value)}
+                        className="w-4 h-4 text-red-600 focus:ring-red-500"
+                      />
+                      <span className="ml-3 text-zinc-700">
+                        Płytki krwi (Trombocyty)
+                      </span>
+                    </label>
+                    {type === 'Płytki krwi' && (
+                      <div className="w-28 relative">
+                        <input
+                          type="number"
+                          value={amount}
+                          onChange={(e) => setAmount(Number(e.target.value))}
+                          className="w-full p-3 pr-8 border border-zinc-300 rounded-md text-center font-medium text-zinc-700 bg-white hover:bg-zinc-50 transition-all focus:outline-none"
+                        />
+                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-zinc-400 pointer-events-none">
+                          ml
+                        </span>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
 

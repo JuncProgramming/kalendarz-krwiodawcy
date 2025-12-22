@@ -91,6 +91,7 @@ function Dashboard() {
     date: string;
     type: string;
     location: string;
+    amount: number;
     file?: File | null;
   }) => {
     try {
@@ -121,6 +122,7 @@ function Dashboard() {
           date: newData.date,
           type: newData.type,
           location: newData.location,
+          amount: newData.amount,
           results_url: resultsUrl,
         },
       ]);
@@ -263,16 +265,6 @@ function Dashboard() {
           <StatisticsCard donations={donations} />
 
           <TaxReliefCalculator donations={donations} />
-
-          <BaseDashboardCard title="Przypomnienia">
-            <p className="text-zinc-600 mb-6 text-sm">
-              Włącz powiadomienia, a damy Ci znać, gdy znów będziesz mógł/mogła
-              oddać krew i uratować komuś życie.
-            </p>
-            <button className="w-full bg-zinc-800 text-white font-medium py-2.5 rounded-md hover:bg-zinc-900 transition-colors text-sm">
-              Włącz przypomnienia
-            </button>
-          </BaseDashboardCard>
         </div>
       </div>
 

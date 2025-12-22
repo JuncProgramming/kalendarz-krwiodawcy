@@ -64,7 +64,14 @@ export const calculateTaxRelief = (donations: any[], year: number) => {
     const type = normalizeType(
       curr.type
     ) as keyof typeof TYPE_VOLUME_MULTIPLIER;
-    const volume = TYPE_VOLUME_MULTIPLIER[type] || 0;
+
+    let volume = 0;
+    if (curr.amount) {
+      volume = curr.amount / 1000;
+    } else {
+      volume = TYPE_VOLUME_MULTIPLIER[type] || 0;
+    }
+
     return acc + volume * TAX_RELIEF_PER_LITER;
   }, 0);
 
