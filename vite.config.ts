@@ -1,12 +1,13 @@
-import { defineConfig } from 'vite'
-import viteReact from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
+import { defineConfig } from 'vite';
+import viteReact from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 
-import { tanstackRouter } from '@tanstack/router-plugin/vite'
-import { fileURLToPath, URL } from 'node:url'
+import { tanstackRouter } from '@tanstack/router-plugin/vite';
+import { fileURLToPath, URL } from 'node:url';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/kalendarz-krwiodawcy/',
   plugins: [
     tanstackRouter({
       target: 'react',
@@ -21,6 +22,6 @@ export default defineConfig({
     },
   },
   server: {
-    host: true
+    host: true,
   },
-})
+});

@@ -1,4 +1,4 @@
-import { createFileRoute, redirect } from '@tanstack/react-router';
+import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router';
 import { supabase } from '@/supabaseClient';
 import Spinner from '@/components/Spinner';
 import { BaseDashboardCard } from '@/components/dashboard/BaseDashboardCard';
@@ -40,12 +40,27 @@ export const Route = createFileRoute('/dashboard/')({
 function Dashboard() {
   const { session } = Route.useRouteContext();
   const user = session.user;
+  const navigate = useNavigate();
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [donationToDelete, setDonationToDelete] = useState<string | null>(null);
   const [donations, setDonations] = useState<Donation[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [targetDonationType, setTargetDonationType] = useState('krew_pelna');
+
+  useEffect(() => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event) => {
+      if (event === 'SIGNED_OUT') {
+        navigate({ to: '/login' });
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
 
   const fetchDonations = useCallback(async () => {
     try {
