@@ -15,7 +15,7 @@ export function useAuth() {
     });
 
     const {
-      data: { subscription },
+      data: { subscription }
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
       setUser(session?.user ?? null);
@@ -37,9 +37,9 @@ export function useAuth() {
       options: {
         data: {
           first_name: firstName,
-          gender: gender,
-        },
-      },
+          gender: gender
+        }
+      }
     });
     return { data, error };
   };
@@ -47,7 +47,7 @@ export function useAuth() {
   const signIn = async (email: string, password: string) => {
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
-      password,
+      password
     });
     return { data, error };
   };
@@ -59,7 +59,7 @@ export function useAuth() {
 
   const resetPassword = async (email: string) => {
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/update-password`,
+      redirectTo: `${window.location.origin}/update-password`
     });
     return { error };
   };
@@ -77,6 +77,6 @@ export function useAuth() {
     signIn,
     signOut,
     resetPassword,
-    updatePassword,
+    updatePassword
   };
 }

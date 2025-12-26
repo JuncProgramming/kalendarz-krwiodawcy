@@ -5,7 +5,7 @@ import { CircleAlert, CircleCheck } from 'lucide-react';
 import Spinner from '@/components/Spinner';
 
 export const Route = createFileRoute('/register/')({
-  component: RegisterPage,
+  component: RegisterPage
 });
 
 function RegisterPage() {
@@ -22,8 +22,8 @@ function RegisterPage() {
 
   if (authLoading) {
     return (
-      <div className="flex items-center justify-center">
-        <Spinner size="lg" />
+      <div className='flex items-center justify-center'>
+        <Spinner size='lg' />
       </div>
     );
   }
@@ -64,147 +64,154 @@ function RegisterPage() {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-zinc-200 p-8 w-xl max-w-md">
-      <div className="p-2">
-        <h1 className="text-3xl font-bold text-zinc-700 text-center mb-2">
+    <div className='bg-white rounded-lg shadow-sm border border-zinc-200 p-8 w-xl max-w-md'>
+      <div className='p-2'>
+        <h1 className='text-3xl font-bold text-zinc-700 text-center mb-2'>
           Rejestracja
         </h1>
-        <p className="text-zinc-600 text-center mb-4">
+        <p className='text-zinc-600 text-center mb-4'>
           Stwórz konto, aby zarządzać swoimi donacjami
         </p>
       </div>
 
-      {message ?
-        <div className="bg-green-50 text-green-600 px-4 py-5 rounded-md text-sm text-center flex flex-col items-center">
-          <CircleCheck className="size-8 mb-3" />
-          <span className="max-w-xs">{message}</span>
+      {message ? (
+        <div className='bg-green-50 text-green-600 px-4 py-5 rounded-md text-sm text-center flex flex-col items-center'>
+          <CircleCheck className='size-8 mb-3' />
+          <span className='max-w-xs'>{message}</span>
         </div>
-      : <>
-          <form onSubmit={handleSubmit} className="space-y-4">
+      ) : (
+        <>
+          <form onSubmit={handleSubmit} className='space-y-4'>
             <div>
               <label
-                htmlFor="email"
-                className="block text-sm font-medium text-zinc-700 mb-1">
+                htmlFor='email'
+                className='block text-sm font-medium text-zinc-700 mb-1'
+              >
                 Email
               </label>
               <input
-                type="email"
-                id="email"
+                type='email'
+                id='email'
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-3 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                placeholder="twoj@email.pl"
+                className='w-full px-3 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent'
+                placeholder='twoj@email.pl'
               />
             </div>
 
             <div>
               <label
-                htmlFor="password"
-                className="block text-sm font-medium text-zinc-700 mb-1">
+                htmlFor='password'
+                className='block text-sm font-medium text-zinc-700 mb-1'
+              >
                 Hasło
               </label>
               <input
-                type="password"
-                id="password"
+                type='password'
+                id='password'
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-3 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                placeholder="Minimum 6 znaków"
+                className='w-full px-3 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent'
+                placeholder='Minimum 6 znaków'
               />
             </div>
 
             <div>
               <label
-                htmlFor="confirmPassword"
-                className="block text-sm font-medium text-zinc-700 mb-1">
+                htmlFor='confirmPassword'
+                className='block text-sm font-medium text-zinc-700 mb-1'
+              >
                 Potwierdź hasło
               </label>
               <input
-                type="password"
-                id="confirmPassword"
+                type='password'
+                id='confirmPassword'
                 required
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full px-3 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                placeholder="Powtórz hasło"
+                className='w-full px-3 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent'
+                placeholder='Powtórz hasło'
               />
             </div>
 
             <div>
               <label
-                htmlFor="firstName"
-                className="block text-sm font-medium text-zinc-700 mb-1">
+                htmlFor='firstName'
+                className='block text-sm font-medium text-zinc-700 mb-1'
+              >
                 Imię
               </label>
               <input
-                type="text"
-                id="firstName"
+                type='text'
+                id='firstName'
                 required
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
-                className="w-full px-3 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                placeholder="Twoje imię"
+                className='w-full px-3 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent'
+                placeholder='Twoje imię'
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-zinc-700 mb-1">
+              <label className='block text-sm font-medium text-zinc-700 mb-1'>
                 Płeć
               </label>
-              <div className="space-y-2">
-                <label className="flex items-center p-3 border border-zinc-300 rounded-md cursor-pointer hover:bg-zinc-50 transition-colors">
+              <div className='space-y-2'>
+                <label className='flex items-center p-3 border border-zinc-300 rounded-md cursor-pointer hover:bg-zinc-50 transition-colors'>
                   <input
-                    type="radio"
-                    name="gender"
-                    value="male"
+                    type='radio'
+                    name='gender'
+                    value='male'
                     checked={gender === 'male'}
                     onChange={(e) => setGender(e.target.value)}
-                    className="w-4 h-4 text-red-600 focus:ring-red-500"
+                    className='w-4 h-4 text-red-600 focus:ring-red-500'
                   />
-                  <span className="ml-3 text-zinc-700">Mężczyzna</span>
+                  <span className='ml-3 text-zinc-700'>Mężczyzna</span>
                 </label>
-                <label className="flex items-center p-3 border border-zinc-300 rounded-md cursor-pointer hover:bg-zinc-50 transition-colors">
+                <label className='flex items-center p-3 border border-zinc-300 rounded-md cursor-pointer hover:bg-zinc-50 transition-colors'>
                   <input
-                    type="radio"
-                    name="gender"
-                    value="female"
+                    type='radio'
+                    name='gender'
+                    value='female'
                     checked={gender === 'female'}
                     onChange={(e) => setGender(e.target.value)}
-                    className="w-4 h-4 text-red-600 focus:ring-red-500"
+                    className='w-4 h-4 text-red-600 focus:ring-red-500'
                   />
-                  <span className="ml-3 text-zinc-700">Kobieta</span>
+                  <span className='ml-3 text-zinc-700'>Kobieta</span>
                 </label>
               </div>
             </div>
 
             {error && (
-              <div className="bg-red-50 text-red-600 px-4 py-3 rounded-md text-sm flex items-center gap-2">
-                <CircleAlert className="size-5 shrink-0" />
+              <div className='bg-red-50 text-red-600 px-4 py-3 rounded-md text-sm flex items-center gap-2'>
+                <CircleAlert className='size-5 shrink-0' />
                 <span>{error}</span>
               </div>
             )}
 
             <button
-              type="submit"
+              type='submit'
               disabled={loading}
-              className="w-full bg-red-600 text-white font-semibold py-3 rounded-md hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">
-              {loading && <Spinner size="sm" />}
+              className='w-full bg-red-600 text-white font-semibold py-3 rounded-md hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2'
+            >
+              {loading && <Spinner size='sm' />}
               {loading ? 'Rejestrowanie...' : 'Zarejestruj się'}
             </button>
           </form>
 
-          <p className="mt-8 text-center text-sm text-zinc-600">
+          <p className='mt-8 text-center text-sm text-zinc-600'>
             Masz już konto?{' '}
             <Link
-              to="/login"
-              className="font-semibold text-red-600 hover:text-red-700">
+              to='/login'
+              className='font-semibold text-red-600 hover:text-red-700'
+            >
               Zaloguj się
             </Link>
           </p>
         </>
-      }
+      )}
     </div>
   );
 }

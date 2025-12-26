@@ -5,7 +5,7 @@ import { CircleCheck, CircleAlert } from 'lucide-react';
 import Spinner from '@/components/Spinner';
 
 export const Route = createFileRoute('/update-password/')({
-  component: UpdatePasswordPage,
+  component: UpdatePasswordPage
 });
 
 function UpdatePasswordPage() {
@@ -53,24 +53,25 @@ function UpdatePasswordPage() {
 
   if (authLoading) {
     return (
-      <div className="flex items-center justify-center">
-        <Spinner size="lg" />
+      <div className='flex items-center justify-center'>
+        <Spinner size='lg' />
       </div>
     );
   }
 
   if (!user) {
     return (
-      <div className="w-xl max-w-md bg-white rounded-lg shadow-sm border border-zinc-200 p-8 flex flex-col items-center">
-        <h1 className="text-3xl font-bold text-zinc-700 text-center mb-2">
+      <div className='w-xl max-w-md bg-white rounded-lg shadow-sm border border-zinc-200 p-8 flex flex-col items-center'>
+        <h1 className='text-3xl font-bold text-zinc-700 text-center mb-2'>
           Link wygasł
         </h1>
-        <p className="text-zinc-600 text-center max-w-3xs">
+        <p className='text-zinc-600 text-center max-w-3xs'>
           Aby uzyskać nowy link, przejdź do strony resetowania hasła.
         </p>
         <Link
-          to="/forgot-password"
-          className="font-semibold text-sm mt-6 text-red-600 hover:text-red-700">
+          to='/forgot-password'
+          className='font-semibold text-sm mt-6 text-red-600 hover:text-red-700'
+        >
           Zresetuj swoje hasło
         </Link>
       </div>
@@ -78,72 +79,76 @@ function UpdatePasswordPage() {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-zinc-200 p-8 w-xl max-w-md">
-      <div className="p-2">
-        <h1 className="text-3xl font-bold text-zinc-700 text-center mb-2">
+    <div className='bg-white rounded-lg shadow-sm border border-zinc-200 p-8 w-xl max-w-md'>
+      <div className='p-2'>
+        <h1 className='text-3xl font-bold text-zinc-700 text-center mb-2'>
           Ustaw nowe hasło
         </h1>
-        <p className="text-zinc-600 text-center mb-4">
+        <p className='text-zinc-600 text-center mb-4'>
           Wprowadź swoje nowe hasło.
         </p>
       </div>
 
-      {message ?
-        <div className="bg-green-50 text-green-600 px-4 py-5 rounded-md text-sm text-center flex flex-col items-center">
-          <CircleCheck className="size-8 mb-3" />
-          <span className="max-w-xs">{message}</span>
+      {message ? (
+        <div className='bg-green-50 text-green-600 px-4 py-5 rounded-md text-sm text-center flex flex-col items-center'>
+          <CircleCheck className='size-8 mb-3' />
+          <span className='max-w-xs'>{message}</span>
         </div>
-      : <form onSubmit={handleSubmit} className="space-y-4">
+      ) : (
+        <form onSubmit={handleSubmit} className='space-y-4'>
           <div>
             <label
-              htmlFor="password"
-              className="block text-sm font-medium text-zinc-700 mb-1">
+              htmlFor='password'
+              className='block text-sm font-medium text-zinc-700 mb-1'
+            >
               Nowe hasło
             </label>
             <input
-              type="password"
-              id="password"
+              type='password'
+              id='password'
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
-              placeholder="Minimum 6 znaków"
+              className='w-full px-3 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent'
+              placeholder='Minimum 6 znaków'
             />
           </div>
 
           <div>
             <label
-              htmlFor="confirmPassword"
-              className="block text-sm font-medium text-zinc-700 mb-1">
+              htmlFor='confirmPassword'
+              className='block text-sm font-medium text-zinc-700 mb-1'
+            >
               Potwierdź nowe hasło
             </label>
             <input
-              type="password"
-              id="confirmPassword"
+              type='password'
+              id='confirmPassword'
               required
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full px-3 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
-              placeholder="Powtórz nowe hasło"
+              className='w-full px-3 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent'
+              placeholder='Powtórz nowe hasło'
             />
           </div>
 
           {error && (
-            <div className="bg-red-50 text-red-600 px-4 py-3 rounded-md text-sm flex items-center gap-2">
-              <CircleAlert className="size-5 shrink-0" />
+            <div className='bg-red-50 text-red-600 px-4 py-3 rounded-md text-sm flex items-center gap-2'>
+              <CircleAlert className='size-5 shrink-0' />
               <span>{error}</span>
             </div>
           )}
 
           <button
-            type="submit"
+            type='submit'
             disabled={loading}
-            className="w-full bg-red-600 text-white font-semibold py-3 rounded-md hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">
-            {loading && <Spinner size="sm" />}
+            className='w-full bg-red-600 text-white font-semibold py-3 rounded-md hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2'
+          >
+            {loading && <Spinner size='sm' />}
             {loading ? 'Zapisywanie hasła...' : 'Zapisz nowe hasło'}
           </button>
         </form>
-      }
+      )}
     </div>
   );
 }

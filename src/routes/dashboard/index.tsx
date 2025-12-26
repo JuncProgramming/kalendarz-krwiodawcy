@@ -19,22 +19,22 @@ import { MAX_FILE_SIZE } from '@/constants';
 export const Route = createFileRoute('/dashboard/')({
   beforeLoad: async ({ location }) => {
     const {
-      data: { session },
+      data: { session }
     } = await supabase.auth.getSession();
     if (!session) {
       throw redirect({
         to: '/login',
-        search: { redirect: location.href },
+        search: { redirect: location.href }
       });
     }
     return { session };
   },
   pendingComponent: () => (
-    <div className="flex justify-center items-center">
-      <Spinner size="lg" />
+    <div className='flex justify-center items-center'>
+      <Spinner size='lg' />
     </div>
   ),
-  component: Dashboard,
+  component: Dashboard
 });
 
 function Dashboard() {
@@ -50,7 +50,7 @@ function Dashboard() {
 
   useEffect(() => {
     const {
-      data: { subscription },
+      data: { subscription }
     } = supabase.auth.onAuthStateChange((event) => {
       if (event === 'SIGNED_OUT') {
         navigate({ to: '/login' });
@@ -60,7 +60,7 @@ function Dashboard() {
     return () => {
       subscription.unsubscribe();
     };
-  }, []);
+  }, [navigate]);
 
   const fetchDonations = useCallback(async () => {
     try {
@@ -88,9 +88,8 @@ function Dashboard() {
 
   const lastDonation = donations[0];
   // If there is a lastDonation, destructure the thing and calculate the next donation date, else default
-  const { daysRemaining, nextDate, progress, canDonate } =
-    lastDonation ?
-      calculateNextDonation(
+  const { daysRemaining, nextDate, progress, canDonate } = lastDonation
+    ? calculateNextDonation(
         lastDonation.date,
         lastDonation.type,
         targetDonationType
@@ -99,7 +98,7 @@ function Dashboard() {
         daysRemaining: 0,
         nextDate: new Date().toLocaleDateString('pl-PL'),
         progress: 100,
-        canDonate: true,
+        canDonate: true
       };
 
   const handleAddDonation = async (newData: {
@@ -138,8 +137,8 @@ function Dashboard() {
           type: newData.type,
           location: newData.location,
           amount: newData.amount,
-          results_url: resultsUrl,
-        },
+          results_url: resultsUrl
+        }
       ]);
 
       if (dbError) throw dbError;
@@ -228,24 +227,24 @@ function Dashboard() {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-[50vh]">
-        <Spinner size="lg" />
+      <div className='flex justify-center items-center h-[50vh]'>
+        <Spinner size='lg' />
       </div>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto space-y-8 pb-12">
-      <h1 className="text-3xl font-bold text-zinc-800">
+    <div className='max-w-7xl mx-auto space-y-8 pb-12'>
+      <h1 className='text-3xl font-bold text-zinc-800'>
         Hej,{' '}
-        <span className="text-red-600">
+        <span className='text-red-600'>
           {user?.user_metadata.first_name || 'krwiodawco'}
         </span>
         . Dziękujemy za ratowanie życia.
       </h1>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 space-y-6">
+      <div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
+        <div className='lg:col-span-2 space-y-6'>
           <StatusCard
             nextDate={nextDate}
             progress={progress}
@@ -264,13 +263,13 @@ function Dashboard() {
           />
         </div>
 
-        <div className="space-y-6">
-          <BaseDashboardCard title="Odznaki">
+        <div className='space-y-6'>
+          <BaseDashboardCard title='Odznaki'>
             <BadgeGoalCard
               donations={donations}
               gender={user?.user_metadata?.gender}
             />
-            <div className="my-4 border-t border-zinc-200"></div>
+            <div className='my-4 border-t border-zinc-200'></div>
             <BadgesGalleryCard
               donations={donations}
               gender={user?.user_metadata?.gender}
@@ -283,17 +282,20 @@ function Dashboard() {
         </div>
       </div>
 
-      <AddDonationModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSave={handleAddDonation}
-      />
+      {isModalOpen && (
+        <AddDonationModal
+          onClose={() => setIsModalOpen(false)}
+          onSave={handleAddDonation}
+        />
+      )}
 
-      <ConfirmModal
-        isOpen={donationToDelete !== null}
-        onClose={() => setDonationToDelete(null)}
-        onConfirm={confirmDeleteDonation}
-      />
+      {donationToDelete !== null && (
+        <ConfirmModal
+          isOpen={true}
+          onClose={() => setDonationToDelete(null)}
+          onConfirm={confirmDeleteDonation}
+        />
+      )}
     </div>
   );
 }

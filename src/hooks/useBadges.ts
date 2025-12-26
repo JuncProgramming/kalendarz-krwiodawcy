@@ -36,8 +36,9 @@ export const useBadges = ({ donations, gender }: BadgeComponentProps) => {
 
     if (nextBadge) {
       nextGoalValue = nextBadge.threshold;
-      const prevThreshold =
-        latestUnlockedBadge ? latestUnlockedBadge.threshold : 0;
+      const prevThreshold = latestUnlockedBadge
+        ? latestUnlockedBadge.threshold
+        : 0;
       const range = nextGoalValue - prevThreshold;
       const currentProgress = totalLiters - prevThreshold;
       progress = Math.min(Math.max((currentProgress / range) * 100, 0), 100);
@@ -54,7 +55,7 @@ export const useBadges = ({ donations, gender }: BadgeComponentProps) => {
       nextBadge,
       progress,
       missingLiters: missingLiters.toFixed(2),
-      nextGoalValue,
+      nextGoalValue
     };
   }, [donations, gender]);
 

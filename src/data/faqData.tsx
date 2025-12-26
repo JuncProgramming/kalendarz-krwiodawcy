@@ -5,7 +5,7 @@ export const faqData = [
     answer: (
       <>
         <p>Dawcą krwi mogą zostać osoby, które:</p>
-        <ul className="list-disc list-inside space-y-2 mt-3">
+        <ul className='list-disc list-inside space-y-2 mt-3'>
           <li>Mają od 18 do 65 lat</li>
           <li>Ważą co najmniej 50 kilogramów</li>
           <li>
@@ -25,7 +25,7 @@ export const faqData = [
           </li>
         </ul>
       </>
-    ),
+    )
   },
   {
     id: 2,
@@ -35,7 +35,7 @@ export const faqData = [
         Nie, absolutnie <strong> nie musisz</strong>. Twoja grupa krwi zostanie
         dokładnie zbadana i oznaczona w ośrodku dokonującym pobrania.
       </p>
-    ),
+    )
   },
   {
     id: 3,
@@ -43,17 +43,17 @@ export const faqData = [
     answer: (
       <>
         <p>Samo pobranie krwi pełnej trwa zwykle od 5 do 10 minut.</p>
-        <p className="mt-2">
+        <p className='mt-2'>
           Musisz jednak pamiętać o tym, żeby doliczyć czas na cały proces:
           rejestrację, wypełnienie ankiety, badanie wstępne, wywiad lekarski
           oraz odpoczynek po donacji.
         </p>
-        <p className="mt-2">
+        <p className='mt-2'>
           Realistycznie, na całą wizytę warto zarezerwować sobie{' '}
           <strong>około 45-60 minut</strong>.
         </p>
       </>
-    ),
+    )
   },
   {
     id: 4,
@@ -61,7 +61,7 @@ export const faqData = [
     answer: (
       <>
         <p>Proces jest bardzo prosty i przebiega w kilku etapach:</p>
-        <ol className="list-decimal list-inside space-y-2 mt-3">
+        <ol className='list-decimal list-inside space-y-2 mt-3'>
           {' '}
           <li>
             {' '}
@@ -105,7 +105,7 @@ export const faqData = [
           </li>{' '}
         </ol>
       </>
-    ),
+    )
   },
   {
     id: 5,
@@ -119,7 +119,7 @@ export const faqData = [
           bezbolesny.
         </p>
       </>
-    ),
+    )
   },
   {
     id: 6,
@@ -129,14 +129,14 @@ export const faqData = [
         <p>
           <strong>Nie ma absolutnie żadnej możliwości zarażenia się.</strong>
         </p>
-        <p className="mt-2">
+        <p className='mt-2'>
           Cały sprzęt używany do pobierania krwi (igły, pojemniki, przewody)
           jest <strong>sterylny i jednorazowego użytku</strong>. Zestaw jest
           otwierany przy Tobie i utylizowany natychmiast po zakończeniu donacji.
         </p>
-        <p className="mt-2">Oddawanie krwi jest w 100% bezpieczne dla dawcy.</p>
+        <p className='mt-2'>Oddawanie krwi jest w 100% bezpieczne dla dawcy.</p>
       </>
-    ),
+    )
   },
   {
     id: 7,
@@ -144,12 +144,12 @@ export const faqData = [
     answer: (
       <>
         <p>
-          "Honorowy Dawca Krwi" to tytuł, który przysługuje każdej osobie, która
-          przynajmniej raz dobrowolnie i bezpłatnie oddała krew lub jej
-          składniki.
+          &quot;Honorowy Dawca Krwi&quot; to tytuł, który przysługuje każdej
+          osobie, która przynajmniej raz dobrowolnie i bezpłatnie oddała krew
+          lub jej składniki.
         </p>
       </>
-    ),
+    )
   },
 
   {
@@ -158,13 +158,14 @@ export const faqData = [
     answer: (
       <>
         <p>
-          "Zasłużony Honorowy Dawca Krwi" to tytuł nadawany przez Polski
-          Czerwony Krzyż jako najwyższa forma uznania dla osób, które regularnie
-          i przez długi czas oddają krew. Jest to tytuł wielostopniowy, zależny
-          od łącznej objętości oddanej krwi (lub jej składników w przeliczeniu).
+          &quot;Zasłużony Honorowy Dawca Krwi&quot; to tytuł nadawany przez
+          Polski Czerwony Krzyż jako najwyższa forma uznania dla osób, które
+          regularnie i przez długi czas oddają krew. Jest to tytuł
+          wielostopniowy, zależny od łącznej objętości oddanej krwi (lub jej
+          składników w przeliczeniu).
         </p>
-        <h3 className="font-semibold mt-3 mb-1">Stopnie tytułu ZHDK:</h3>
-        <ul className="list-disc list-inside space-y-1">
+        <h3 className='font-semibold mt-3 mb-1'>Stopnie tytułu ZHDK:</h3>
+        <ul className='list-disc list-inside space-y-1'>
           <li>
             <strong>III stopnia:</strong> 5 litrów (Kobiety) / 6 litrów
             (Mężczyźni)
@@ -179,7 +180,7 @@ export const faqData = [
           </li>
         </ul>
       </>
-    ),
+    )
   },
   {
     id: 9,
@@ -187,7 +188,7 @@ export const faqData = [
     answer: (
       <>
         <p>Po donacji dawcy przysługuje:</p>
-        <ul className="list-disc list-inside space-y-2 mt-3">
+        <ul className='list-disc list-inside space-y-2 mt-3'>
           <li>
             Tytuł „Honorowego Dawcy Krwi” oraz legitymacja „Honorowego Dawcy
             Krwi” wydana przez jednostkę organizacyjną publicznej służby krwi, w
@@ -206,17 +207,17 @@ export const faqData = [
           <li>Karta identyfikacyjna grupy krwi (KrewKarta).</li>
         </ul>
       </>
-    ),
+    )
   },
   {
     id: 10,
     question: 'Jakie są przywileje dla Zasłużonych Honorowych Dawców Krwi?',
     answer: (
       <>
-        <p className="mt-2">
+        <p className='mt-2'>
           Zostanie ZHDK wiąże się z następującymi przywilejami:
         </p>
-        <ul className="list-disc list-inside space-y-2 mt-3">
+        <ul className='list-disc list-inside space-y-2 mt-3'>
           <li>
             korzystanie z usług farmaceutycznych udzielanych w aptekach poza
             kolejnością.
@@ -238,6 +239,6 @@ export const faqData = [
           </li>
         </ul>
       </>
-    ),
-  },
+    )
+  }
 ];

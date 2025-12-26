@@ -1,4 +1,5 @@
 import { TAX_RELIEF_PER_LITER, TYPE_VOLUME_MULTIPLIER } from './constants';
+import type { Donation } from './types';
 
 export const normalizeType = (type: string) => {
   if (type === 'Krew pełna' || type === 'krew_pelna') return 'krew_pelna';
@@ -51,11 +52,11 @@ export const calculateNextDonation = (
     daysRemaining: daysRemaining > 0 ? daysRemaining : 0,
     canDonate: daysRemaining <= 0,
     nextDate: nextDate.toLocaleDateString('pl-PL'),
-    progress,
+    progress
   };
 };
 
-export const calculateTaxRelief = (donations: any[], year: number) => {
+export const calculateTaxRelief = (donations: Donation[], year: number) => {
   const yearDonations = donations.filter(
     (donation) => new Date(donation.date).getFullYear() === year
   );
@@ -77,7 +78,7 @@ export const calculateTaxRelief = (donations: any[], year: number) => {
 
   return {
     amount: Math.round(totalAmount * 100) / 100,
-    donationCount: yearDonations.length,
+    donationCount: yearDonations.length
   };
 };
 

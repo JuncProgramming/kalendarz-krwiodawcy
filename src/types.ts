@@ -27,7 +27,6 @@ export type BaseDashboardCardProps = {
 };
 
 export type AddDonationModalProps = {
-  isOpen: boolean;
   onClose: () => void;
   onSave: (data: {
     date: string;

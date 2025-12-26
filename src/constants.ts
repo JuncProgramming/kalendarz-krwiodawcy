@@ -3,5 +3,5 @@ export const TAX_RELIEF_PER_LITER = 130; /// 130zł
 export const TYPE_VOLUME_MULTIPLIER = {
   krew_pelna: 0.45,
   osocze: 0.65,
-  plytki: 0.25,
+  plytki: 0.25
 };
