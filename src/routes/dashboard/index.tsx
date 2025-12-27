@@ -4,17 +4,14 @@ import Spinner from '@/components/Spinner';
 import { BaseDashboardCard } from '@/components/dashboard/BaseDashboardCard';
 import { AddDonationModal } from '@/components/AddDonationModal';
 import { ConfirmModal } from '@/components/ConfirmModal';
-import { useState, useEffect, useCallback } from 'react';
-import { calculateNextDonation } from '@/utils';
+import { useState, useEffect } from 'react';
 import DonationsHistoryCard from '@/components/dashboard/DonationsHistoryCard';
-import type { Donation } from '@/types';
 import StatusCard from '@/components/dashboard/StatusCard';
 import StatisticsCard from '@/components/dashboard/StatisticsCard';
 import { TaxReliefCalculator } from '@/components/dashboard/TaxReliefCalculator';
 import BadgeGoalCard from '@/components/dashboard/BadgeGoalCard';
 import BadgesGalleryCard from '@/components/dashboard/BadgesGalleryCard';
-import { toast } from 'react-toastify';
-import { MAX_FILE_SIZE } from '@/constants';
+import { useDonations } from '@/hooks/useDonations';
 
 export const Route = createFileRoute('/dashboard/')({
   beforeLoad: async ({ location }) => {
@@ -44,9 +41,20 @@ function Dashboard() {
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [donationToDelete, setDonationToDelete] = useState<string | null>(null);
-  const [donations, setDonations] = useState<Donation[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [targetDonationType, setTargetDonationType] = useState('krew_pelna');
+
+  const {
+    donations,
+    isLoading,
+    handleAddDonation,
+    handleDeleteDonation,
+    handleUploadResults,
+    handleViewResult,
+    nextDate,
+    daysRemaining,
+    canDonate,
+    progress
+  } = useDonations(user.id, targetDonationType);
 
   useEffect(() => {
     const {
@@ -61,169 +69,6 @@ function Dashboard() {
       subscription.unsubscribe();
     };
   }, [navigate]);
-
-  const fetchDonations = useCallback(async () => {
-    try {
-      const { data, error } = await supabase
-        .from('donations')
-        .select('*')
-        .order('date', { ascending: false })
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-      if (data) {
-        setDonations(data as Donation[]);
-      }
-    } catch (error) {
-      console.error(error);
-      toast.error('Nie udało się pobrać historii donacji.');
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchDonations();
-  }, [fetchDonations]);
-
-  const lastDonation = donations[0];
-  // If there is a lastDonation, destructure the thing and calculate the next donation date, else default
-  const { daysRemaining, nextDate, progress, canDonate } = lastDonation
-    ? calculateNextDonation(
-        lastDonation.date,
-        lastDonation.type,
-        targetDonationType
-      )
-    : {
-        daysRemaining: 0,
-        nextDate: new Date().toLocaleDateString('pl-PL'),
-        progress: 100,
-        canDonate: true
-      };
-
-  const handleAddDonation = async (newData: {
-    date: string;
-    type: string;
-    location: string;
-    amount: number;
-    file?: File | null;
-  }) => {
-    try {
-      let resultsUrl = null;
-
-      if (newData.file) {
-        if (newData.file.size > MAX_FILE_SIZE) {
-          toast.error('Plik jest za duży (max. 2 MB)');
-          return;
-        }
-
-        const fileExt = newData.file.name.split('.').pop();
-        const fileName = `${Math.random()}.${fileExt}`;
-        const filePath = `${user.id}/${Date.now()}_${fileName}`;
-
-        const { error: uploadError } = await supabase.storage
-          .from('donation-results')
-          .upload(filePath, newData.file);
-
-        if (uploadError) throw uploadError;
-
-        resultsUrl = filePath;
-      }
-
-      const { error: dbError } = await supabase.from('donations').insert([
-        {
-          user_id: user.id,
-          date: newData.date,
-          type: newData.type,
-          location: newData.location,
-          amount: newData.amount,
-          results_url: resultsUrl
-        }
-      ]);
-
-      if (dbError) throw dbError;
-
-      await fetchDonations();
-      toast.success('Dodano nową donację');
-      setIsModalOpen(false);
-    } catch (error) {
-      console.error(error);
-      toast.error('Nie udało się zapisać donacji. Spróbuj ponownie.');
-    }
-  };
-
-  const handleDeleteDonation = (id: string) => {
-    setDonationToDelete(id);
-  };
-
-  const confirmDeleteDonation = async () => {
-    if (!donationToDelete) return;
-
-    try {
-      const { error } = await supabase
-        .from('donations')
-        .delete()
-        .eq('id', donationToDelete);
-
-      if (error) throw error;
-
-      await fetchDonations();
-      toast.success('Donacja została usunięta');
-    } catch (error) {
-      console.error(error);
-      toast.error('Nie udało się usunąć donacji. Spróbuj ponownie');
-    } finally {
-      setDonationToDelete(null);
-    }
-  };
-
-  const handleUploadResults = async (id: string, file: File) => {
-    if (file.size > MAX_FILE_SIZE) {
-      toast.error('Plik jest za duży (max. 2 MB)');
-      return;
-    }
-
-    try {
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${Math.random()}.${fileExt}`;
-      const filePath = `${user.id}/${Date.now()}_${fileName}`;
-
-      const { error: uploadError } = await supabase.storage
-        .from('donation-results')
-        .upload(filePath, file);
-
-      if (uploadError) throw uploadError;
-
-      const { error: updateError } = await supabase
-        .from('donations')
-        .update({ results_url: filePath })
-        .eq('id', id);
-
-      if (updateError) throw updateError;
-
-      await fetchDonations();
-      toast.success('Wyniki badań zostały zapisane');
-    } catch (error) {
-      console.error(error);
-      toast.error('Nie udało się przesłać pliku. Spróbuj ponownie.');
-    }
-  };
-
-  const handleViewResult = async (path: string) => {
-    try {
-      const { data, error } = await supabase.storage
-        .from('donation-results')
-        .createSignedUrl(path, 60);
-
-      if (error) throw error;
-      if (data) {
-        window.open(data.signedUrl, '_blank');
-      }
-    } catch (error) {
-      console.error(error);
-      toast.error('Nie udało się otworzyć pliku. Spróbuj ponownie');
-    }
-  };
 
   if (isLoading) {
     return (
@@ -257,7 +102,7 @@ function Dashboard() {
           <DonationsHistoryCard
             donations={donations}
             onClick={() => setIsModalOpen(true)}
-            onDelete={handleDeleteDonation}
+            onDelete={(id) => setDonationToDelete(id)}
             onUpload={handleUploadResults}
             onViewResult={handleViewResult}
           />
@@ -285,15 +130,28 @@ function Dashboard() {
       {isModalOpen && (
         <AddDonationModal
           onClose={() => setIsModalOpen(false)}
-          onSave={handleAddDonation}
+          onSave={async (data) => {
+            await handleAddDonation(data);
+            setIsModalOpen(false);
+          }}
         />
       )}
 
       {donationToDelete !== null && (
         <ConfirmModal
-          isOpen={true}
           onClose={() => setDonationToDelete(null)}
-          onConfirm={confirmDeleteDonation}
+          onConfirm={async () => {
+            if (donationToDelete) {
+              await handleDeleteDonation(donationToDelete);
+              setDonationToDelete(null);
+            }
+          }}
+          title='Usuń donację'
+          description='Czy na pewno chcesz usunąć tę donację? Tej operacji nie można cofnąć'
+          confirmLabel='Usuń'
+          confirmLoadingLabel='Usuwanie'
+          cancelLabel='Anuluj'
+          variant='danger'
         />
       )}
     </div>

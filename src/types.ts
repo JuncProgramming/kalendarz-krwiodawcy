@@ -34,7 +34,7 @@ export type AddDonationModalProps = {
     location: string;
     amount: number;
     file?: File | null;
-  }) => void;
+  }) => Promise<void> | void;
 };
 
 export type StatusCardProps = {
@@ -55,9 +55,14 @@ export type DonationsHistoryCardProps = {
 };
 
 export type ConfirmModalProps = {
-  isOpen: boolean;
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm: () => Promise<void> | void;
+  title: string;
+  description: string;
+  confirmLabel?: string;
+  confirmLoadingLabel?: string;
+  cancelLabel?: string;
+  variant?: 'danger' | 'info';
 };
 
 export type BadgeComponentProps = {

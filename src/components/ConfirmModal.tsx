@@ -1,8 +1,20 @@
-import { useEffect } from 'react';
-import { X, AlertTriangle } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { X, AlertTriangle, Info } from 'lucide-react';
 import type { ConfirmModalProps } from '@/types';
+import Spinner from '@/components/Spinner';
 
-export function ConfirmModal({ onClose, onConfirm }: ConfirmModalProps) {
+export function ConfirmModal({
+  onClose,
+  onConfirm,
+  title,
+  description,
+  confirmLabel = 'Potwierdź',
+  confirmLoadingLabel = 'Przetwarzanie',
+  cancelLabel = 'Anuluj',
+  variant = 'danger'
+}: ConfirmModalProps) {
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     document.body.style.overflow = 'hidden';
 
@@ -11,11 +23,21 @@ export function ConfirmModal({ onClose, onConfirm }: ConfirmModalProps) {
     };
   }, []);
 
+  const handleConfirm = async () => {
+    setIsLoading(true);
+    try {
+      await onConfirm();
+      onClose();
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className='fixed inset-0 z-50 overflow-y-auto'>
       <div
         className='fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity animate-in fade-in duration-200'
-        onClick={onClose}
+        onClick={isLoading ? undefined : onClose}
         aria-hidden='true'
       />
 
@@ -25,9 +47,10 @@ export function ConfirmModal({ onClose, onConfirm }: ConfirmModalProps) {
           onClick={(e) => e.stopPropagation()}
         >
           <div className='flex border-b border-zinc-200 pb-4 mb-4 justify-between items-center'>
-            <h3 className='text-xl font-bold text-zinc-800'>Usuń donację</h3>
+            <h3 className='text-xl font-bold text-zinc-800'>{title}</h3>
             <button
               onClick={onClose}
+              disabled={isLoading}
               className='p-2 rounded-md text-zinc-600 hover:text-zinc-800 transition-colors'
             >
               <X size={20} />
@@ -37,35 +60,44 @@ export function ConfirmModal({ onClose, onConfirm }: ConfirmModalProps) {
           <div className='space-y-6'>
             <div className='flex items-start gap-4'>
               <div
-                className={'p-3 rounded-full shrink-0 bg-red-50 text-red-600'}
+                className={`p-3 rounded-full shrink-0 ${
+                  variant === 'danger'
+                    ? 'bg-red-50 text-red-600'
+                    : 'bg-yellow-50 text-yellow-600'
+                }`}
               >
-                <AlertTriangle size={24} />
+                {variant === 'danger' ? (
+                  <AlertTriangle size={24} />
+                ) : (
+                  <Info size={24} />
+                )}
               </div>
-              <p className='text-zinc-600 mt-1'>
-                Czy na pewno chcesz usunąć tę donację? Tej operacji nie można
-                cofnąć
-              </p>
+              <p className='text-zinc-600 mt-1'>{description}</p>
             </div>
 
             <div className='flex gap-3 justify-end pt-2'>
               <button
                 type='button'
                 onClick={onClose}
-                className='px-4 py-2 text-sm font-medium text-zinc-700 bg-white border border-zinc-300 rounded-md hover:bg-zinc-50 focus:ring-zinc-500 transition-colors'
+                disabled={isLoading}
+                className='px-4 py-2 text-sm font-medium text-zinc-700 bg-white border border-zinc-300 rounded-md hover:bg-zinc-50 focus:ring-zinc-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed'
               >
-                Anuluj
+                {cancelLabel}
               </button>
               <button
                 type='button'
                 onClick={() => {
-                  onConfirm();
-                  onClose();
+                  handleConfirm();
                 }}
-                className={
-                  'px-4 py-2 text-sm font-medium text-white rounded-md transition-colors bg-red-600 hover:bg-red-700'
-                }
+                disabled={isLoading}
+                className={`px-4 py-2 text-sm font-medium text-white rounded-md transition-colors flex items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed ${
+                  variant === 'danger'
+                    ? 'bg-red-600 hover:bg-red-700'
+                    : 'bg-yellow-500 hover:bg-yellow-600'
+                }`}
               >
-                Usuń
+                {isLoading && <Spinner size='sm' />}
+                {isLoading ? confirmLoadingLabel + '...' : confirmLabel}
               </button>
             </div>
           </div>

@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { X, Upload } from 'lucide-react';
-import Spinner from './Spinner';
+import Spinner from '@/components/Spinner';
 import { type AddDonationModalProps } from '@/types';
 import { toast } from 'react-toastify';
 import { MAX_FILE_SIZE } from '@/constants';
@@ -24,7 +24,7 @@ export function AddDonationModal({ onClose, onSave }: AddDonationModalProps) {
     };
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (amount <= 0) {
@@ -33,12 +33,12 @@ export function AddDonationModal({ onClose, onSave }: AddDonationModalProps) {
     }
 
     setIsSubmitting(true);
-
-    setTimeout(() => {
-      onSave({ date, type, location, amount, file });
-      setIsSubmitting(false);
+    try {
+      await onSave({ date, type, location, amount, file });
       onClose();
-    }, 500);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleTypeChange = (newType: string) => {
@@ -106,7 +106,7 @@ export function AddDonationModal({ onClose, onSave }: AddDonationModalProps) {
           </div>
 
           <form onSubmit={handleSubmit}>
-            <div className='space-y-4'>
+            <div className='space-y-3'>
               <div className='flex flex-col'>
                 <label
                   htmlFor='date'
@@ -126,7 +126,7 @@ export function AddDonationModal({ onClose, onSave }: AddDonationModalProps) {
               </div>
 
               <div className='flex flex-col'>
-                <label className='mb-2 font-medium text-zinc-600'>
+                <label className='mb-1 font-medium text-zinc-600'>
                   Typ donacji
                 </label>
                 <div className='space-y-2'>
