@@ -18,7 +18,7 @@ export default function StatusCard({
   const donationTypes: { id: DonationType; label: string }[] = [
     { id: 'krew_pelna', label: 'Krew' },
     { id: 'osocze', label: 'Osocze' },
-    { id: 'plytki', label: 'Płytki' }
+    { id: 'plytki_krwi', label: 'Płytki' }
   ];
 
   return (
@@ -74,7 +74,7 @@ export default function StatusCard({
                   Możesz już oddać{' '}
                   {displayedType === 'osocze'
                     ? 'osocze'
-                    : displayedType === 'plytki'
+                    : displayedType === 'plytki_krwi'
                       ? 'płytki krwi'
                       : 'krew pełną'}
                 </span>
@@ -89,7 +89,7 @@ export default function StatusCard({
                 <span className='text-zinc-600 font-medium leading-tight text-balance'>
                   {targetDonationType === 'osocze'
                     ? 'do kolejnej donacji osocza'
-                    : targetDonationType === 'plytki'
+                    : targetDonationType === 'plytki_krwi'
                       ? 'do kolejnej donacji płytek krwi'
                       : 'do kolejnej donacji krwi pełnej'}
                 </span>

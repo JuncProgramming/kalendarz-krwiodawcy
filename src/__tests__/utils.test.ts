@@ -19,12 +19,12 @@ describe('utils', () => {
       expect(result2).toBe('osocze');
     });
 
-    it('should return "plytki" when "Płytki krwi" or "plytki" is passed in', () => {
+    it('should return "plytki_krwi" when "Płytki krwi" or "plytki_krwi" is passed in', () => {
       const result1 = normalizeType('Płytki krwi');
-      const result2 = normalizeType('plytki');
+      const result2 = normalizeType('plytki_krwi');
 
-      expect(result1).toBe('plytki');
-      expect(result2).toBe('plytki');
+      expect(result1).toBe('plytki_krwi');
+      expect(result2).toBe('plytki_krwi');
     });
 
     it('should return "krew_pelna" when an empty string is passed in', () => {

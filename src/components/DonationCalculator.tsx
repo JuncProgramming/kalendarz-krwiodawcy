@@ -10,6 +10,8 @@ export function DonationCalculator() {
     useState<DonationType>('krew_pelna');
   const [nextDonationType, setNextDonationType] =
     useState<DonationType>('krew_pelna');
+  const [calculatedNextDonationType, setCalculatedNextDonationType] =
+    useState<DonationType | null>(null);
   const [nextDonationDate, setNextDonationDate] = useState<Date | null>(null);
   const [showGenderNote, setShowGenderNote] = useState(false);
 
@@ -24,6 +26,7 @@ export function DonationCalculator() {
 
     setNextDonationDate(nextDonationDate);
     setShowGenderNote(showGenderNote);
+    setCalculatedNextDonationType(nextDonationType);
   };
 
   return (
@@ -78,8 +81,8 @@ export function DonationCalculator() {
               <input
                 type='radio'
                 name='lastDonationType'
-                value='plytki'
-                checked={lastDonationType === 'plytki'}
+                value='plytki_krwi'
+                checked={lastDonationType === 'plytki_krwi'}
                 onChange={(e) =>
                   setLastDonationType(e.target.value as DonationType)
                 }
@@ -127,8 +130,8 @@ export function DonationCalculator() {
               <input
                 type='radio'
                 name='nextDonationType'
-                value='plytki'
-                checked={nextDonationType === 'plytki'}
+                value='plytki_krwi'
+                checked={nextDonationType === 'plytki_krwi'}
                 onChange={(e) =>
                   setNextDonationType(e.target.value as DonationType)
                 }
@@ -150,10 +153,16 @@ export function DonationCalculator() {
       </button>
 
       <div className='space-y-3 mt-3'>
-        {nextDonationDate && (
+        {nextDonationDate && calculatedNextDonationType && (
           <div className='text-center bg-green-100 p-4 rounded-md'>
             <p className='font-medium text-green-800'>
-              Możesz znów oddać krew od:
+              Możesz znów oddać{' '}
+              {calculatedNextDonationType === 'krew_pelna'
+                ? 'krew pełną'
+                : calculatedNextDonationType === 'osocze'
+                  ? 'osocze'
+                  : 'płytki krwi'}{' '}
+              od:
             </p>
             <p className='text-2xl font-bold text-green-900'>
               {nextDonationDate.toLocaleDateString('pl-PL')}

@@ -13,7 +13,7 @@ const StatisticsCard = ({ donations }: { donations: Donation[] }) => {
 
       if (type === 'krew_pelna') acc.krew_pelna += volume;
       if (type === 'osocze') acc.osocze += volume;
-      if (type === 'plytki') acc.plytki_krwi += volume;
+      if (type === 'plytki_krwi') acc.plytki_krwi += volume;
 
       return acc;
     },

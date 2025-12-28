@@ -2,12 +2,22 @@ import { TAX_RELIEF_PER_LITER, TYPE_VOLUME_MULTIPLIER } from './constants';
 import type { Donation } from './types';
 
 export const normalizeType = (type: string) => {
-  if (type === 'Krew pełna' || type === 'krew_pelna') return 'krew_pelna';
-  if (type === 'Osocze' || type === 'osocze') return 'osocze';
-  if (type === 'Płytki krwi' || type === 'plytki') return 'plytki';
+  const cleanType = type.trim().toLowerCase();
+  if (
+    cleanType === 'krew pełna' ||
+    cleanType === 'krew pelna' ||
+    cleanType === 'krew_pelna'
+  )
+    return 'krew_pelna';
+  if (cleanType === 'osocze') return 'osocze';
+  if (
+    cleanType === 'płytki krwi' ||
+    cleanType === 'plytki krwi' ||
+    cleanType === 'plytki_krwi'
+  )
+    return 'plytki_krwi';
   return 'krew_pelna';
 };
-
 export const calculateNextDonation = (
   lastDonationDateStr: string,
   lastDonationType: string = 'Krew pełna',

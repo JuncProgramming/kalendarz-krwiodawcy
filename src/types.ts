@@ -1,10 +1,10 @@
 import { type ReactNode } from 'react';
 
-export type DonationType = 'krew_pelna' | 'osocze' | 'plytki';
+export type DonationType = 'krew_pelna' | 'osocze' | 'plytki_krwi';
 
 export type Donation = {
   id: string;
-  type: 'krew_pelna' | 'osocze' | 'plytki';
+  type: 'krew_pelna' | 'osocze' | 'plytki_krwi';
   date: string;
   location: string;
   amount: number;
