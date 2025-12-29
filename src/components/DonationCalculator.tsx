@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { type DonationType } from '@/types';
+import { calculateNextDonation } from '@/utils';
 
 export function DonationCalculator() {
   const [lastDonationDate, setLastDonationDate] = useState(
@@ -15,36 +16,14 @@ export function DonationCalculator() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const dataBazowa = new Date(lastDonationDate);
-    let dniDoDodania = 0;
+    const { nextDonationDate, showGenderNote } = calculateNextDonation(
+      lastDonationDate,
+      lastDonationType,
+      nextDonationType
+    );
 
-    if (
-      lastDonationType === 'krew_pelna' &&
-      nextDonationType === 'krew_pelna'
-    ) {
-      setShowGenderNote(true);
-      dniDoDodania = 56;
-    } else if (
-      ((lastDonationType === 'osocze' || lastDonationType === 'plytki') &&
-        nextDonationType === 'krew_pelna') ||
-      (lastDonationType === 'osocze' && nextDonationType === 'plytki') ||
-      (lastDonationType === 'plytki' && nextDonationType === 'osocze')
-    ) {
-      dniDoDodania = 2;
-    } else if (
-      (lastDonationType === 'osocze' && nextDonationType === 'osocze') ||
-      (lastDonationType === 'plytki' && nextDonationType === 'plytki')
-    ) {
-      dniDoDodania = 14;
-    } else {
-      setShowGenderNote(false);
-      dniDoDodania = 28;
-    }
-
-    const nowaData = new Date(dataBazowa.getTime());
-    nowaData.setDate(nowaData.getDate() + dniDoDodania);
-
-    setNextDonationDate(nowaData);
+    setNextDonationDate(nextDonationDate);
+    setShowGenderNote(showGenderNote);
   };
 
   return (

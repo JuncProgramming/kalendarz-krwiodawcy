@@ -52,7 +52,9 @@ export const calculateNextDonation = (
     daysRemaining: daysRemaining > 0 ? daysRemaining : 0,
     canDonate: daysRemaining <= 0,
     nextDate: nextDate.toLocaleDateString('pl-PL'),
-    progress
+    nextDonationDate: nextDate,
+    progress,
+    showGenderNote: lastType === 'krew_pelna' && targetType === 'krew_pelna'
   };
 };
 
