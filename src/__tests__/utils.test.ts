@@ -1,5 +1,10 @@
-import { getDonationsWordForm, normalizeType } from '@/utils';
+import {
+  calculateTaxRelief,
+  getDonationsWordForm,
+  normalizeType
+} from '@/utils';
 import { describe, it, expect } from 'vitest';
+import type { Donation } from '@/types';
 
 describe('utils', () => {
   describe('normalizeType', () => {
@@ -39,6 +44,46 @@ describe('utils', () => {
       expect(result1).toBe('krew_pelna');
       expect(result2).toBe('krew_pelna');
       expect(result3).toBe('krew_pelna');
+    });
+  });
+  describe('calculateTaxRelief', () => {
+    const fakeDonations = [
+      { date: '2025-01-10', type: 'Krew pełna', amount: 450 },
+      { date: '2025-05-12', type: 'Osocze', amount: 650 },
+      { date: '2025-05-12', type: 'Płytki krwi', amount: 500 },
+      { date: '2024-12-20', type: 'Krew pełna', amount: 450 },
+      { date: '2023-07-02', type: 'Krew pełna', amount: 225 },
+      { date: '2022-01-01', type: 'Krew pełna' } as unknown as Donation,
+      { date: '2022-01-01', type: 'Osocze' } as unknown as Donation,
+      { date: '2022-01-01', type: 'Płytki krwi' } as unknown as Donation
+    ] as unknown as Donation[];
+
+    it('should return 0 for both the count and taxRelief when there are no donations in a certain year', () => {
+      expect(calculateTaxRelief(fakeDonations, 2020)).toEqual({
+        amount: 0,
+        donationCount: 0
+      });
+    });
+
+    it('should return correct count and taxRelief only for the selected year', () => {
+      expect(calculateTaxRelief(fakeDonations, 2025)).toEqual({
+        amount: 208,
+        donationCount: 3
+      });
+    });
+
+    it('should return correct count and taxRelief when the amount is not the default amount', () => {
+      expect(calculateTaxRelief(fakeDonations, 2023)).toEqual({
+        amount: 29.25,
+        donationCount: 1
+      });
+    });
+
+    it('should return correct count and taxRelief when there is no amount provided (fallback to default values)', () => {
+      expect(calculateTaxRelief(fakeDonations, 2022)).toEqual({
+        amount: 175.5,
+        donationCount: 3
+      });
     });
   });
   describe('getDonationsWordForm', () => {
