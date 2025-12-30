@@ -18,6 +18,7 @@ export const normalizeType = (type: string) => {
     return 'plytki_krwi';
   return 'krew_pelna';
 };
+
 export const calculateNextDonation = (
   lastDonationDateStr: string,
   lastDonationType: string = 'Krew pełna',

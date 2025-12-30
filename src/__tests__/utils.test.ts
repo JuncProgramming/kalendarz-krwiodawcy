@@ -1,4 +1,4 @@
-import { normalizeType } from '@/utils';
+import { getDonationsWordForm, normalizeType } from '@/utils';
 import { describe, it, expect } from 'vitest';
 
 describe('utils', () => {
@@ -39,6 +39,41 @@ describe('utils', () => {
       expect(result1).toBe('krew_pelna');
       expect(result2).toBe('krew_pelna');
       expect(result3).toBe('krew_pelna');
+    });
+  });
+  describe('getDonationsWordForm', () => {
+    it('should return "donacji" when the number passed in is 0', () => {
+      expect(getDonationsWordForm(0)).toBe('donacji');
+    });
+
+    it('should return "donacja" when the number passed in is 1', () => {
+      expect(getDonationsWordForm(1)).toBe('donacja');
+    });
+
+    it('should return "donacje" when the number passed in is 2, 3 or 4', () => {
+      expect(getDonationsWordForm(2)).toBe('donacje');
+      expect(getDonationsWordForm(3)).toBe('donacje');
+      expect(getDonationsWordForm(4)).toBe('donacje');
+    });
+
+    it('should return "donacji" when the number passed in is between 5 and 21', () => {
+      expect(getDonationsWordForm(5)).toBe('donacji');
+      expect(getDonationsWordForm(12)).toBe('donacji');
+      expect(getDonationsWordForm(21)).toBe('donacji');
+    });
+
+    it('should return "donacje" when the number passed in has the second digit as a 2, 3 or 4', () => {
+      expect(getDonationsWordForm(22)).toBe('donacje');
+      expect(getDonationsWordForm(23)).toBe('donacje');
+      expect(getDonationsWordForm(24)).toBe('donacje');
+
+      expect(getDonationsWordForm(32)).toBe('donacje');
+      expect(getDonationsWordForm(43)).toBe('donacje');
+      expect(getDonationsWordForm(54)).toBe('donacje');
+
+      expect(getDonationsWordForm(62)).toBe('donacje');
+      expect(getDonationsWordForm(73)).toBe('donacje');
+      expect(getDonationsWordForm(84)).toBe('donacje');
     });
   });
 });
