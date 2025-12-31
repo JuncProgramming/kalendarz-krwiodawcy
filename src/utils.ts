@@ -19,7 +19,7 @@ export const normalizeType = (type: string) => {
   return 'krew_pelna';
 };
 
-export const calculateNextDonation = (
+export const calculateNextDonationDate = (
   lastDonationDateStr: string,
   lastDonationType: string = 'Krew pełna',
   targetDonationType: string = 'Krew pełna'

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { type DonationType } from '@/types';
-import { calculateNextDonation } from '@/utils';
+import { calculateNextDonationDate } from '@/utils';
 
 export function DonationCalculator() {
   const [lastDonationDate, setLastDonationDate] = useState(
@@ -18,7 +18,7 @@ export function DonationCalculator() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const { nextDonationDate, showGenderNote } = calculateNextDonation(
+    const { nextDonationDate, showGenderNote } = calculateNextDonationDate(
       lastDonationDate,
       lastDonationType,
       nextDonationType

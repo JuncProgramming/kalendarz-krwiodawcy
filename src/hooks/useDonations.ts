@@ -3,7 +3,7 @@ import { supabase } from '@/supabaseClient';
 import { toast } from 'react-toastify';
 import type { Donation } from '@/types';
 import { MAX_FILE_SIZE } from '@/constants';
-import { calculateNextDonation } from '@/utils';
+import { calculateNextDonationDate } from '@/utils';
 
 export function useDonations(
   userId: string | undefined,
@@ -39,7 +39,7 @@ export function useDonations(
   const lastDonation = donations[0];
   // If there is a lastDonation, destructure the thing and calculate the next donation date, else default
   const { daysRemaining, nextDate, progress, canDonate } = lastDonation
-    ? calculateNextDonation(
+    ? calculateNextDonationDate(
         lastDonation.date,
         lastDonation.type,
         targetDonationType
