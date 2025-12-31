@@ -10,27 +10,27 @@ import type { Donation } from '@/types';
 describe('utils', () => {
   describe('normalizeType', () => {
     it('should return "krew_pelna" when "Krew pełna" or "krew_pelna" is passed in', () => {
-      const result1 = normalizeType('Krew pełna');
-      const result2 = normalizeType('krew_pelna');
+      const normalizedFromLabel = normalizeType('Krew pełna');
+      const normalizedFromKey = normalizeType('krew_pelna');
 
-      expect(result1).toBe('krew_pelna');
-      expect(result2).toBe('krew_pelna');
+      expect(normalizedFromLabel).toBe('krew_pelna');
+      expect(normalizedFromKey).toBe('krew_pelna');
     });
 
     it('should return "osocze" when "Osocze" or "osocze" is passed in', () => {
-      const result1 = normalizeType('Osocze');
-      const result2 = normalizeType('osocze');
+      const normalizedFromLabel = normalizeType('Osocze');
+      const normalizedFromKey = normalizeType('osocze');
 
-      expect(result1).toBe('osocze');
-      expect(result2).toBe('osocze');
+      expect(normalizedFromLabel).toBe('osocze');
+      expect(normalizedFromKey).toBe('osocze');
     });
 
     it('should return "plytki_krwi" when "Płytki krwi" or "plytki_krwi" is passed in', () => {
-      const result1 = normalizeType('Płytki krwi');
-      const result2 = normalizeType('plytki_krwi');
+      const normalizedFromLabel = normalizeType('Płytki krwi');
+      const normalizedFromKey = normalizeType('plytki_krwi');
 
-      expect(result1).toBe('plytki_krwi');
-      expect(result2).toBe('plytki_krwi');
+      expect(normalizedFromLabel).toBe('plytki_krwi');
+      expect(normalizedFromKey).toBe('plytki_krwi');
     });
 
     it('should return "krew_pelna" when an empty string is passed in', () => {
@@ -38,15 +38,16 @@ describe('utils', () => {
     });
 
     it('should return "krew_pelna" when string other than the set strings is passed in', () => {
-      const result1 = normalizeType('random');
-      const result2 = normalizeType('abc');
-      const result3 = normalizeType('123');
+      const normalizedFromRandom = normalizeType('random');
+      const normalizedFromAbc = normalizeType('abc');
+      const normalizedFromNumber = normalizeType('123');
 
-      expect(result1).toBe('krew_pelna');
-      expect(result2).toBe('krew_pelna');
-      expect(result3).toBe('krew_pelna');
+      expect(normalizedFromRandom).toBe('krew_pelna');
+      expect(normalizedFromAbc).toBe('krew_pelna');
+      expect(normalizedFromNumber).toBe('krew_pelna');
     });
   });
+
   describe('calculateNextDonationDate', () => {
     beforeEach(() => {
       vi.useFakeTimers();
@@ -58,187 +59,186 @@ describe('utils', () => {
     });
 
     it('should apply correct wait times for same-type donations', () => {
-      const result1 = calculateNextDonationDate(
+      const krewResult = calculateNextDonationDate(
         '2025-01-01',
         'Krew pełna',
         'Krew pełna'
       );
-      const result2 = calculateNextDonationDate(
+      const osoczeResult = calculateNextDonationDate(
         '2025-01-01',
         'Osocze',
         'Osocze'
       );
-      const result3 = calculateNextDonationDate(
+      const plytkiResult = calculateNextDonationDate(
         '2025-01-01',
         'Płytki krwi',
         'Płytki krwi'
       );
 
-      expect(result1.daysRemaining).toBe(56);
-      expect(result2.daysRemaining).toBe(14);
-      expect(result3.daysRemaining).toBe(14);
+      expect(krewResult.daysRemaining).toBe(56);
+      expect(osoczeResult.daysRemaining).toBe(14);
+      expect(plytkiResult.daysRemaining).toBe(14);
     });
 
     it('should apply 28-day wait time when switching from "Krew pełna" to other types', () => {
-      const result1 = calculateNextDonationDate(
+      const krewToOsoczeResult = calculateNextDonationDate(
         '2025-01-01',
         'Krew pełna',
         'Osocze'
       );
-      const result2 = calculateNextDonationDate(
+      const krewToPlytkiResult = calculateNextDonationDate(
         '2025-01-01',
         'Krew pełna',
         'Płytki krwi'
       );
 
-      expect(result1.daysRemaining).toBe(28);
-      expect(result2.daysRemaining).toBe(28);
+      expect(krewToOsoczeResult.daysRemaining).toBe(28);
+      expect(krewToPlytkiResult.daysRemaining).toBe(28);
     });
 
     it('should apply 2-day wait time for mixed combinations with the previous donation being "Osocze" or "Płytki krwi"', () => {
-      const result1 = calculateNextDonationDate(
+      const osoczeToKrewResult = calculateNextDonationDate(
         '2025-01-01',
         'Osocze',
         'Krew pełna'
       );
-      const result2 = calculateNextDonationDate(
+      const osoczeToPlytkiResult = calculateNextDonationDate(
         '2025-01-01',
         'Osocze',
         'Płytki krwi'
       );
 
-      const result3 = calculateNextDonationDate(
+      const plytkiToKrewResult = calculateNextDonationDate(
         '2025-01-01',
         'Płytki krwi',
         'Krew pełna'
       );
-      const result4 = calculateNextDonationDate(
+      const plytkiToOsoczeResult = calculateNextDonationDate(
         '2025-01-01',
         'Płytki krwi',
         'Osocze'
       );
 
-      expect(result1.daysRemaining).toBe(2);
-      expect(result2.daysRemaining).toBe(2);
-      expect(result3.daysRemaining).toBe(2);
-      expect(result4.daysRemaining).toBe(2);
+      expect(osoczeToKrewResult.daysRemaining).toBe(2);
+      expect(osoczeToPlytkiResult.daysRemaining).toBe(2);
+      expect(plytkiToKrewResult.daysRemaining).toBe(2);
+      expect(plytkiToOsoczeResult.daysRemaining).toBe(2);
     });
 
     it('should allow donation exactly on the calculated donation date (0 days remaining)', () => {
-      const result = calculateNextDonationDate(
+      const exactDateResult = calculateNextDonationDate(
         '2024-11-06',
         'Krew pełna',
         'Krew pełna'
       );
 
-      expect(result.daysRemaining).toBe(0);
-      expect(result.canDonate).toBe(true);
+      expect(exactDateResult.daysRemaining).toBe(0);
+      expect(exactDateResult.canDonate).toBe(true);
     });
 
     it('should not allow donation 1 day before the calculate donation date', () => {
-      const result = calculateNextDonationDate(
+      const oneDayBeforeResult = calculateNextDonationDate(
         '2024-11-07',
         'Krew pełna',
         'Krew pełna'
       );
 
-      expect(result.daysRemaining).toBe(1);
-      expect(result.canDonate).toBe(false);
+      expect(oneDayBeforeResult.daysRemaining).toBe(1);
+      expect(oneDayBeforeResult.canDonate).toBe(false);
     });
 
     it('should allow donation 1 day after the calculated donation date', () => {
-      const result = calculateNextDonationDate(
+      const oneDayAfterResult = calculateNextDonationDate(
         '2024-11-05',
         'Krew pełna',
         'Krew pełna'
       );
 
-      expect(result.daysRemaining).toBe(0);
-      expect(result.canDonate).toBe(true);
+      expect(oneDayAfterResult.daysRemaining).toBe(0);
+      expect(oneDayAfterResult.canDonate).toBe(true);
     });
 
     it('should calculate progress percentage correctly (0%, 50%, 100%)', () => {
-      const result1 = calculateNextDonationDate(
+      const zeroProgressResult = calculateNextDonationDate(
         '2025-01-01',
         'Krew pełna',
         'Krew pełna'
       );
-      const result2 = calculateNextDonationDate(
+      const fiftyProgressResult = calculateNextDonationDate(
         '2024-12-04',
         'Krew pełna',
         'Krew pełna'
       );
-      const result3 = calculateNextDonationDate(
+      const hundredProgressResult = calculateNextDonationDate(
         '2024-01-01',
         'Krew pełna',
         'Krew pełna'
       );
 
-      expect(result1.progress).toBe(0);
-      expect(result2.progress).toBe(50);
-      expect(result3.progress).toBe(100);
+      expect(zeroProgressResult.progress).toBe(0);
+      expect(fiftyProgressResult.progress).toBe(50);
+      expect(hundredProgressResult.progress).toBe(100);
     });
 
     it('should display gender note only for "Krew pełna" to "Krew pełna" scenario', () => {
-      const result1 = calculateNextDonationDate(
+      const krewToKrewResult = calculateNextDonationDate(
         '2025-01-01',
         'Krew pełna',
         'Krew pełna'
       );
-      const result2 = calculateNextDonationDate(
+      const krewToOsoczeResult = calculateNextDonationDate(
         '2025-01-01',
         'Krew pełna',
         'Osocze'
       );
-      const result3 = calculateNextDonationDate(
+      const krewToPlytkiResult = calculateNextDonationDate(
         '2025-01-01',
         'Krew pełna',
         'Płytki krwi'
       );
-      const result4 = calculateNextDonationDate(
+      const osoczeToKrewResult = calculateNextDonationDate(
         '2025-01-01',
         'Osocze',
         'Krew pełna'
       );
-      const result5 = calculateNextDonationDate(
+      const osoczeToOsoczeResult = calculateNextDonationDate(
         '2025-01-01',
         'Osocze',
         'Osocze'
       );
-      const result6 = calculateNextDonationDate(
+      const osoczeToPlytkiResult = calculateNextDonationDate(
         '2025-01-01',
         'Osocze',
         'Płytki krwi'
       );
-      const result7 = calculateNextDonationDate(
+      const plytkiToKrewResult = calculateNextDonationDate(
         '2025-01-01',
         'Płytki krwi',
         'Krew pełna'
       );
-      const result8 = calculateNextDonationDate(
+      const plytkiToOsoczeResult = calculateNextDonationDate(
         '2025-01-01',
         'Płytki krwi',
         'Osocze'
       );
-      const result9 = calculateNextDonationDate(
+      const plytkiToPlytkiResult = calculateNextDonationDate(
         '2025-01-01',
         'Płytki krwi',
         'Płytki krwi'
       );
 
-      expect(result1.showGenderNote).toBe(true);
-      expect([
-        result2.showGenderNote,
-        result3.showGenderNote,
-        result4.showGenderNote,
-        result5.showGenderNote,
-        result6.showGenderNote,
-        result7.showGenderNote,
-        result8.showGenderNote,
-        result9.showGenderNote
-      ]).toEqual([false, false, false, false, false, false, false, false]);
+      expect(krewToKrewResult.showGenderNote).toBe(true);
+      expect(krewToOsoczeResult.showGenderNote).toBe(false);
+      expect(krewToPlytkiResult.showGenderNote).toBe(false);
+      expect(osoczeToKrewResult.showGenderNote).toBe(false);
+      expect(osoczeToOsoczeResult.showGenderNote).toBe(false);
+      expect(osoczeToPlytkiResult.showGenderNote).toBe(false);
+      expect(plytkiToKrewResult.showGenderNote).toBe(false);
+      expect(plytkiToOsoczeResult.showGenderNote).toBe(false);
+      expect(plytkiToPlytkiResult.showGenderNote).toBe(false);
     });
   });
+
   describe('calculateTaxRelief', () => {
     const fakeDonations = [
       { date: '2025-01-10', type: 'Krew pełna', amount: 450 },
@@ -279,6 +279,7 @@ describe('utils', () => {
       });
     });
   });
+
   describe('getDonationsWordForm', () => {
     it('should return "donacji" when the number passed in is 0', () => {
       expect(getDonationsWordForm(0)).toBe('donacji');
