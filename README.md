@@ -68,4 +68,5 @@ npm run test
 * **TypeScript Type Safety**: Learned to implement comprehensive typing by defining all types in a centralized `types.ts` file, making the codebase more bulletproof and significantly reducing runtime errors.
 * **Practical React Implementation**: This project solidified my understanding of functional components and core hooks (`useState`, `useEffect`) for managing application state. I also identified opportunities where advanced hooks like `useMemo` and `useCallback` could be applied to optimize performance.
 * **Responsive UI with Tailwind CSS**: Polished my styling skills by implementing a modern, "mobile-first" design. Using Tailwind CSS allowed for a highly responsive and consistent interface, ensuring the app remains fully functional and visually appealing on devices of all sizes.
+* **Navigation with TanStack Router**: Gained hands-on experience implementing type-safe routing using **TanStack Router**.
 * **Testing with Vitest**: Utilized **Vitest** to ensure the tax relief and date calculators remain 100% accurate.
